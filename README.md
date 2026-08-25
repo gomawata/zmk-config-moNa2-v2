@@ -3,6 +3,7 @@
 > **`standard-keymap` ブランチについて**
 > このブランチは配布・動作確認用に、default_layer を一般的なキー配列へ戻したもの。
 > 配列の内容・ファームの入手方法・確認手順は [STANDARD_KEYMAP.md](STANDARD_KEYMAP.md) を参照。
+> 受け取った人向けの1ページのガイドは `keymap-guide.html`（ダウンロードしてブラウザで開く）。
 
 <!-- mona2.svg は CI (Draw ZMK Keymap) が config/mona2.keymap から自動生成する最新の図。
      mona2_01.svg は上流が手でコミットした変更前の図なので参照しない。 -->
