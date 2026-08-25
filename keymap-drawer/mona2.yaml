@@ -39,8 +39,8 @@ layers:
   - LEFT SHIFT
   - BACKSPACE
   - {t: ENTER, h: '2'}
-  - '3'
-  - '3'
+  - {t: LANG2, h: '3'}
+  - {t: LANG1, h: '3'}
   - {t: SPACE, h: '1'}
   - LEFT ALT
   '1':
@@ -156,8 +156,8 @@ layers:
   - Gui+Sft+LEFT ARROW
   - Gui+Sft+RIGHT ARROW
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - INT MUHENKAN
+  - INT HENKAN
   - {t: ▽, type: trans}
   - DELETE
   - PAGE UP
