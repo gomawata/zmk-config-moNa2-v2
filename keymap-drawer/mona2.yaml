@@ -16,31 +16,31 @@ layers:
   - D
   - F
   - G
-  - F13
+  - ESC
   - H
   - J
   - K
   - L
   - ;
-  - {t: Z, h: LEFT SHIFT}
+  - Z
   - X
   - C
   - V
   - B
-  - F14
-  - F15
+  - TAB
+  - DELETE
   - N
   - M
   - ','
   - .
   - /
   - LCTRL
-  - LEFT WIN
-  - F16
+  - LEFT GUI
+  - LEFT SHIFT
   - BACKSPACE
   - {t: ENTER, h: '2'}
-  - {t: '&to_layer_0 LANG2', h: '3'}
-  - {t: '&to_layer_0 LANG1', h: '3'}
+  - '3'
+  - '3'
   - {t: SPACE, h: '1'}
   - LEFT ALT
   '1':
@@ -54,7 +54,7 @@ layers:
   - '8'
   - '9'
   - '0'
-  - BT PRV
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - '['
   - ']'
@@ -120,7 +120,7 @@ layers:
   - F8
   - F9
   - F10
-  - {t: ESC, s: '`'}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -303,6 +303,4 @@ layers:
   - {t: ▽, type: trans}
 combos:
 - p: [39, 38]
-  k: {t: ESC, h: '4'}
-- p: [11, 12]
-  k: TAB
+  k: '4'
