@@ -3,6 +3,11 @@
 #include <dt-bindings/zmk/input_transform.h>
 #include <physical_layouts.dtsi>
 
+// 直前に打鍵していた場合はマウスレイヤーを出さない（打鍵中にボールへ触れても誤クリックしない）
+&zip_temp_layer {
+    require-prior-idle-ms = <150>;
+};
+
 / {
     chosen {
         zmk,physical-layout = &physical_layout0;
