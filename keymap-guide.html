@@ -14,7 +14,7 @@
     --line:#cdd6d0; --line-soft:#e0e6e2;
     --accent:#0d6a58; --accent-ink:#ffffff; --ptr:#9a6212;
     --warn:#93372a; --warn-bg:#f7ece9;
-    --key-bg:#ffffff; --key-line:#c4cec7; --key-shadow:0 1px 0 #c4cec7;
+    --key-bg:#ffffff; --key-line:#c4cec7; --key-shadow:0 1px 0 #c4cec7; --ghost:#a4b0a9;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -23,7 +23,7 @@
       --line:#2c3733; --line-soft:#232c28;
       --accent:#4cc0a3; --accent-ink:#0c1512; --ptr:#dda94f;
       --warn:#e79180; --warn-bg:#2a1c18;
-      --key-bg:#1f2723; --key-line:#33403a; --key-shadow:0 1px 0 #0d110f;
+      --key-bg:#1f2723; --key-line:#33403a; --key-shadow:0 1px 0 #0d110f; --ghost:#5a675f;
     }
   }
   :root[data-theme="dark"] {
@@ -32,7 +32,7 @@
     --line:#2c3733; --line-soft:#232c28;
     --accent:#4cc0a3; --accent-ink:#0c1512; --ptr:#dda94f;
     --warn:#e79180; --warn-bg:#2a1c18;
-    --key-bg:#1f2723; --key-line:#33403a; --key-shadow:0 1px 0 #0d110f;
+    --key-bg:#1f2723; --key-line:#33403a; --key-shadow:0 1px 0 #0d110f; --ghost:#5a675f;
   }
 
   * { box-sizing: border-box; }
@@ -79,6 +79,17 @@
   .panel { background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); padding:18px 22px; }
   .note-warn { background:var(--warn-bg); border:1px solid color-mix(in srgb, var(--warn) 35%, transparent); color:var(--warn); padding:11px 15px; font-size:.89rem; line-height:1.7; }
 
+  .layer { display:flex; flex-direction:column; gap:11px; }
+  .layer-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:9px; }
+  .chip {
+    font-family:"IBM Plex Mono",monospace; font-size:.71rem; font-weight:600; letter-spacing:.1em;
+    background:var(--accent); color:var(--accent-ink); padding:3px 9px;
+  }
+  .chip.ptr { background:var(--ptr); color:var(--accent-ink); }
+  .layer-head h3 { font-family:"Zen Kaku Gothic New",sans-serif; font-size:1rem; font-weight:700; margin:0; }
+  .how { color:var(--muted); font-size:.86rem; }
+  .legend { display:flex; flex-wrap:wrap; gap:7px 18px; font-size:.77rem; color:var(--muted); font-family:"IBM Plex Mono",monospace; }
+  .legend b { color:var(--ink-2); font-weight:500; }
   .board-scroll { overflow-x:auto; padding-bottom:6px; }
   .board { display:grid; grid-template-columns:repeat(13,50px); grid-auto-rows:50px; gap:5px; width:max-content; }
   .key {
@@ -92,6 +103,12 @@
   .key.mod { background:var(--surface-2); }
   .key.lay { border-color:var(--accent); }
   .key.lay .t { color:var(--accent); }
+  .key .t.sm { font-size:.62rem; letter-spacing:-.01em; }
+  .key.ptr { border-color:var(--ptr); }
+  .key.ptr .t { color:var(--ptr); }
+  .key.sys { border-style:dashed; }
+  .key.ghost { background:transparent; border-style:dotted; box-shadow:none; }
+  .key.ghost .t { color:var(--ghost); font-weight:400; }
   .ball {
     grid-row:4; grid-column:10 / span 3;
     display:flex; align-items:center; justify-content:center;
@@ -157,8 +174,7 @@
       <span class="eyebrow">02</span>
       <h2>キーの配置</h2>
     </div>
-    <div class="board-scroll"><div class="board" id="board"></div></div>
-    <p style="color:var(--ink-2);font-size:.93rem">数字や記号の専用キーはありません。親指のキーを<strong>押している間だけ</strong>、キーの意味が変わります。</p>
+    <p style="color:var(--ink-2);font-size:.93rem">数字や記号の専用キーはありません。親指のキーを<strong>押している間だけ</strong>、キーの意味が変わります。押すのをやめれば元に戻ります。</p>
     <div class="thumb">
       <div><b>Space を押しっぱなし</b>数字と かっこ</div>
       <div><b>Enter を押しっぱなし</b>記号と F1〜F12</div>
@@ -167,31 +183,24 @@
     </div>
     <p style="color:var(--ink-2);font-size:.93rem">日本語と英語は、親指の<strong>「英数」「かな」を短く押す</strong>と切り替わります。切り替わらない環境では、そのキーを押しっぱなしにしながら内側の <kbd>無変換</kbd> <kbd>変換</kbd> を押してください。</p>
     <p style="color:var(--ink-2);font-size:.93rem">トラックボールを動かすと 0.5秒だけ指がクリックになります。<kbd>F</kbd> か <kbd>J</kbd> で左クリック、<kbd>D</kbd> か <kbd>K</kbd> で右クリックです。</p>
+    <p class="note-warn">元の作者の配列にできるだけ寄せてありますが、こちらで手を入れているので、<strong>配布元と完全に同じであることは保証しません</strong>。実際の動きはこの図のとおりです。</p>
+    <div id="layers" style="display:flex;flex-direction:column;gap:34px"></div>
+    <div class="legend">
+      <span><b>■ 実線</b> そのとき有効なキー</span>
+      <span><b>▢ 点線</b> いつもどおりの文字が出る</span>
+      <span><b style="color:var(--accent)">■ 緑枠</b> 押している間だけ切り替わるキー</span>
+      <span><b style="color:var(--ptr)">■ 橙枠</b> マウス関連</span>
+    </div>
   </section>
 
   <section>
     <div class="sec-head">
       <span class="eyebrow">03</span>
-      <h2>ひととおり確認</h2>
-    </div>
-    <ul class="checks">
-      <li>左右のキーがすべて反応する</li>
-      <li>「かな」「英数」で日本語と英語が切り替わる</li>
-      <li>Space・Enter を押しっぱなしにすると数字・記号が出る</li>
-      <li>トラックボールでポインタが動き、<kbd>F</kbd> でクリックできる</li>
-      <li>左手側のダイヤルでスクロールできる</li>
-    </ul>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <span class="eyebrow">04</span>
       <h2>あとは好きに変えてください</h2>
     </div>
-    <p style="color:var(--ink-2)">設定は ZMK で、すべて公開しています。全レイヤーの詳しい配列図もリポジトリにあります。書き換えたファームウェアは、本体裏のリセットボタンを素早く2回押すと出てくるドライブに入れれば反映されます。</p>
+    <p style="color:var(--ink-2)">このキーボードは ZMK というファームウェアで動いていて、設計元が設定一式を公開しています。配列を変えたい場合はこちらを見てください。書き換えたファームウェアは、本体裏のリセットボタンを素早く2回押すと出てくるドライブに入れれば反映されます。</p>
     <div class="panel" style="font-family:'IBM Plex Mono',monospace;font-size:.9rem;word-break:break-all">
-      github.com/gomawata/zmk-config-moNa2-v2<br>
-      <span style="color:var(--muted)">branch: standard-keymap</span>
+      github.com/sayu-hub/zmk-config-moNa2-v2
     </div>
   </section>
 
@@ -203,6 +212,7 @@
 
 <script>
 (function () {
+  // 物理配列: 各行で実際にキーがある列（mona2.dtsi / mona2.json の座標に対応）
   var ROWCOLS = [
     [0,1,2,3,4,        8,9,10,11,12],
     [0,1,2,3,4,      7,8,9,10,11,12],
@@ -210,9 +220,12 @@
     [0,1,2,3,4,5,    7,8,         12]
   ];
   var POS = [];
-  ROWCOLS.forEach(function (cols, r) { cols.forEach(function (c) { POS.push([r + 1, c + 1]); }); });
+  ROWCOLS.forEach(function (cols, r) {
+    cols.forEach(function (c) { POS.push([r + 1, c + 1]); });
+  });
 
   function k(t, s, cls) { return { t: t, s: s || "", cls: cls || "" }; }
+  var _ = null; // 透過（下のレイヤーがそのまま出る）
 
   var BASE = [
     k("Q"),k("W"),k("E"),k("R"),k("T"),                     k("Y"),k("U"),k("I"),k("O"),k("P"),
@@ -223,30 +236,123 @@
     k("かな","長押し矢印","lay"),k("Space","長押し数字","lay"),k("Alt","","mod")
   ];
 
-  var board = document.getElementById("board");
-  BASE.forEach(function (src, i) {
-    var pos = POS[i];
-    var el = document.createElement("div");
-    el.className = "key " + src.cls;
-    el.style.setProperty("--r", pos[0]);
-    el.style.setProperty("--c", pos[1]);
-    var t = document.createElement("span");
-    t.className = "t";
-    t.textContent = src.t;
-    el.appendChild(t);
-    if (src.s) {
-      var s = document.createElement("span");
-      s.className = "s";
-      s.textContent = src.s;
-      el.appendChild(s);
+  var LAYERS = [
+    {
+      name: "基本レイヤー", tag: "LAYER 0",
+      how: "何も押していないときの配列。ふだんの文字入力はここ。",
+      keys: BASE, ball: "TRACKBALL"
+    },
+    {
+      name: "数字・かっこ", tag: "LAYER 1",
+      how: "Space を押しっぱなしにしている間だけ。",
+      keys: [
+        k("1"),k("2"),k("3"),k("4"),k("5"),            k("6"),k("7"),k("8"),k("9"),k("0"),
+        _,_,k("["),k("]"),_,                      _,   _,k("("),k(")"),_,k("\\"),
+        _,_,_,_,_,_,                              _,   _,_,_,_,k("|"),
+        _,_,_,_,_,_,                              _,   _,                      _
+      ]
+    },
+    {
+      name: "記号・ファンクション", tag: "LAYER 2",
+      how: "Enter を押しっぱなしにしている間だけ。",
+      keys: [
+        k("!"),k("@"),k("#"),k("$"),k("%"),             k("^"),k("&"),k("*"),k("-"),k("_"),
+        k("`"),k("~"),k("\""),k("'"),_,           _,    k("中ｸﾘｯｸ","","ptr"),k("左ｸﾘｯｸ","","ptr"),k("右ｸﾘｯｸ","","ptr"),k("="),k("+"),
+        k("F1"),k("F2"),k("F3"),k("F4"),k("F5"),k("F11"), k("F12"),k("F6"),k("F7"),k("F8"),k("F9"),k("F10"),
+        _,_,_,_,_,_,                              _,    _,                      _
+      ]
+    },
+    {
+      name: "カーソル・ウィンドウ操作", tag: "LAYER 3",
+      how: "左右どちらかの親指キー（かな / 英数）を押しっぱなしにしている間だけ。この間はトラックボールがスクロールになる。",
+      keys: [
+        _,k("⇧Tab"),k("PrtSc"),k("Ctrl+Tab"),_,        _,k("Home"),k("↑"),k("End"),_,
+        _,k("GUI+←"),k("GUI+→"),k("Ctl+GUI+←"),k("Ctl+GUI+→"), _, _,k("←"),k("↓"),k("→"),_,
+        _,k("Shift","","mod"),k("GUI+⇧+←"),k("GUI+⇧+→"),_,k("無変換"), k("変換"),_,k("Del"),k("PgUp"),k("PgDn"),_,
+        _,_,_,_,_,_,                              _,    _,                      _
+      ],
+      ball: "SCROLL"
+    },
+    {
+      name: "Bluetooth・書き込み", tag: "LAYER 4",
+      how: "左右の親指キー（かな・英数）を同時に押している間だけ。",
+      keys: [
+        _,_,_,_,_,                                 k("BT 1","","lay"),k("BT 2","","lay"),k("BT 3","","lay"),k("BT 4","","lay"),k("BT 5","","lay"),
+        _,_,_,_,_,                            _,   _,_,_,_,_,
+        _,_,_,_,_,_,                          k("書込ﾓｰﾄﾞ","","sys"), _,_,_,_,k("接続消去","","sys"),
+        _,_,_,_,_,_,                          _,   _,                      k("全消去","","sys")
+      ]
+    },
+    {
+      name: "クリック（自動）", tag: "MOUSE",
+      how: "トラックボールを動かすと 0.5秒だけ自動で有効になる。指を動かさずにクリックできる。",
+      ptr: true,
+      keys: [
+        _,_,_,_,_,                                 _,_,_,_,_,
+        _,k("中","","ptr"),k("右","","ptr"),k("左","","ptr"),_,  _,  _,k("左","","ptr"),k("右","","ptr"),k("中","","ptr"),_,
+        _,_,_,_,_,_,                          _,   _,_,_,_,_,
+        _,_,_,_,_,_,                          _,   _,                      _
+      ],
+      ball: "TRACKBALL"
     }
-    board.appendChild(el);
-  });
+  ];
 
-  var ball = document.createElement("div");
-  ball.className = "ball";
-  ball.textContent = "TRACKBALL";
-  board.appendChild(ball);
+  var host = document.getElementById("layers");
+
+  LAYERS.forEach(function (layer) {
+    var sec = document.createElement("div");
+    sec.className = "layer";
+
+    var head = document.createElement("div");
+    head.className = "layer-head";
+    var chip = document.createElement("span");
+    chip.className = "chip" + (layer.ptr ? " ptr" : "");
+    chip.textContent = layer.tag;
+    var h3 = document.createElement("h3");
+    h3.textContent = layer.name;
+    var how = document.createElement("span");
+    how.className = "how";
+    how.textContent = layer.how;
+    head.appendChild(chip); head.appendChild(h3); head.appendChild(how);
+
+    var scroll = document.createElement("div");
+    scroll.className = "board-scroll";
+    var board = document.createElement("div");
+    board.className = "board";
+
+    layer.keys.forEach(function (key, i) {
+      var pos = POS[i];
+      var el = document.createElement("div");
+      var isGhost = !key;
+      var src = key || BASE[i];
+      el.className = "key " + (isGhost ? "ghost" : (src.cls || ""));
+      el.style.setProperty("--r", pos[0]);
+      el.style.setProperty("--c", pos[1]);
+      var t = document.createElement("span");
+      t.className = "t" + (src.t.length > 4 ? " sm" : "");
+      t.textContent = src.t;
+      el.appendChild(t);
+      if (!isGhost && src.s) {
+        var s = document.createElement("span");
+        s.className = "s";
+        s.textContent = src.s;
+        el.appendChild(s);
+      }
+      board.appendChild(el);
+    });
+
+    if (layer.ball) {
+      var ball = document.createElement("div");
+      ball.className = "ball";
+      ball.textContent = layer.ball;
+      board.appendChild(ball);
+    }
+
+    scroll.appendChild(board);
+    sec.appendChild(head);
+    sec.appendChild(scroll);
+    host.appendChild(sec);
+  });
 })();
 </script>
 </body>
