@@ -1,5 +1,9 @@
 # zmk-config-moNa2
 
+> **`standard-keymap` ブランチについて**
+> このブランチは配布・動作確認用に、default_layer を一般的なキー配列へ戻したもの。
+> 配列の内容・ファームの入手方法・確認手順は [STANDARD_KEYMAP.md](STANDARD_KEYMAP.md) を参照。
+
 <img src="keymap-drawer/mona2_01.svg">
 
 # COROPITを使用するへ
