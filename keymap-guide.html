@@ -9,301 +9,118 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root {
-    --bg:        #eef1ee;
-    --surface:   #ffffff;
-    --surface-2: #e3e8e4;
-    --ink:       #171d1a;
-    --ink-2:     #47534d;
-    --muted:     #6f7d76;
-    --line:      #cdd6d0;
-    --line-soft: #e0e6e2;
-    --accent:    #0d6a58;
-    --accent-ink:#ffffff;
-    --ptr:       #9a6212;
-    --warn:      #93372a;
-    --warn-bg:   #f7ece9;
-    --key-bg:    #ffffff;
-    --key-line:  #c4cec7;
-    --key-shadow: 0 1px 0 var(--key-line);
-    --ghost:     #a4b0a9;
+    --bg:#eef1ee; --surface:#ffffff; --surface-2:#e3e8e4;
+    --ink:#171d1a; --ink-2:#47534d; --muted:#6f7d76;
+    --line:#cdd6d0; --line-soft:#e0e6e2;
+    --accent:#0d6a58; --accent-ink:#ffffff; --ptr:#9a6212;
+    --warn:#93372a; --warn-bg:#f7ece9;
+    --key-bg:#ffffff; --key-line:#c4cec7; --key-shadow:0 1px 0 #c4cec7;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg:        #111614;
-      --surface:   #191f1c;
-      --surface-2: #212926;
-      --ink:       #e8eeea;
-      --ink-2:     #b3c0b9;
-      --muted:     #8b998f;
-      --line:      #2c3733;
-      --line-soft: #232c28;
-      --accent:    #4cc0a3;
-      --accent-ink:#0c1512;
-      --ptr:       #dda94f;
-      --warn:      #e79180;
-      --warn-bg:   #2a1c18;
-      --key-bg:    #1f2723;
-      --key-line:  #33403a;
-      --key-shadow: 0 1px 0 #0d110f;
-      --ghost:     #5a675f;
+      --bg:#111614; --surface:#191f1c; --surface-2:#212926;
+      --ink:#e8eeea; --ink-2:#b3c0b9; --muted:#8b998f;
+      --line:#2c3733; --line-soft:#232c28;
+      --accent:#4cc0a3; --accent-ink:#0c1512; --ptr:#dda94f;
+      --warn:#e79180; --warn-bg:#2a1c18;
+      --key-bg:#1f2723; --key-line:#33403a; --key-shadow:0 1px 0 #0d110f;
     }
   }
   :root[data-theme="dark"] {
-    --bg:        #111614;
-    --surface:   #191f1c;
-    --surface-2: #212926;
-    --ink:       #e8eeea;
-    --ink-2:     #b3c0b9;
-    --muted:     #8b998f;
-    --line:      #2c3733;
-    --line-soft: #232c28;
-    --accent:    #4cc0a3;
-    --accent-ink:#0c1512;
-    --ptr:       #dda94f;
-    --warn:      #e79180;
-    --warn-bg:   #2a1c18;
-    --key-bg:    #1f2723;
-    --key-line:  #33403a;
-    --key-shadow: 0 1px 0 #0d110f;
-    --ghost:     #5a675f;
+    --bg:#111614; --surface:#191f1c; --surface-2:#212926;
+    --ink:#e8eeea; --ink-2:#b3c0b9; --muted:#8b998f;
+    --line:#2c3733; --line-soft:#232c28;
+    --accent:#4cc0a3; --accent-ink:#0c1512; --ptr:#dda94f;
+    --warn:#e79180; --warn-bg:#2a1c18;
+    --key-bg:#1f2723; --key-line:#33403a; --key-shadow:0 1px 0 #0d110f;
   }
 
   * { box-sizing: border-box; }
-
   body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.75;
-    -webkit-font-smoothing: antialiased;
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic UI",system-ui,sans-serif;
+    font-size:16px; line-height:1.75; -webkit-font-smoothing:antialiased;
   }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 20px 80px; display:flex; flex-direction:column; gap:44px; }
 
-  .wrap {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 40px 20px 96px;
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-  }
-
-  h1, h2, h3 {
-    font-family: "Zen Kaku Gothic New", "Hiragino Sans", system-ui, sans-serif;
-    text-wrap: balance;
-    margin: 0;
-    line-height: 1.3;
-  }
-  h1 { font-size: 2.1rem; font-weight: 900; letter-spacing: .01em; }
-  h2 { font-size: 1.3rem; font-weight: 700; }
-  h3 { font-size: 1.02rem; font-weight: 700; }
-  p  { margin: 0; }
+  h1,h2 { font-family:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif; margin:0; line-height:1.3; text-wrap:balance; }
+  h1 { font-size:1.95rem; font-weight:900; }
+  h2 { font-size:1.22rem; font-weight:700; }
+  p { margin:0; }
 
   .eyebrow {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: .72rem;
-    font-weight: 600;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--accent);
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:.72rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent);
   }
+  header.masthead { display:flex; flex-direction:column; gap:10px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+  header.masthead p { color:var(--ink-2); }
 
-  header.masthead {
-    display: flex; flex-direction: column; gap: 12px;
-    padding-bottom: 28px;
-    border-bottom: 2px solid var(--ink);
-  }
-  header.masthead p { color: var(--ink-2); max-width: 62ch; }
+  section { display:flex; flex-direction:column; gap:14px; }
+  .sec-head { display:flex; flex-direction:column; gap:3px; }
 
-  section { display: flex; flex-direction: column; gap: 18px; }
-  .sec-head { display: flex; flex-direction: column; gap: 4px; }
-
-  /* ---------- power-on ---------- */
-  .power {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-left: 4px solid var(--accent);
-    padding: 22px 24px;
-    display: flex; flex-direction: column; gap: 16px;
-  }
-  .steps { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
-  .step {
-    flex: 1 1 210px;
-    background: var(--surface-2);
-    border: 1px solid var(--line-soft);
-    padding: 14px 16px;
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .step .n {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .72rem; font-weight: 600; letter-spacing: .12em;
-    color: var(--accent);
-  }
-  .step strong { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 1.05rem; }
-  .step span { color: var(--ink-2); font-size: .88rem; line-height: 1.6; }
-  .note-warn {
-    background: var(--warn-bg);
-    border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
-    color: var(--warn);
-    padding: 12px 16px;
-    font-size: .9rem;
-    line-height: 1.7;
-  }
-
-  /* ---------- board ---------- */
-  .layer { display: flex; flex-direction: column; gap: 12px; }
-  .layer-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
-  .chip {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .72rem; font-weight: 600; letter-spacing: .1em;
-    background: var(--accent); color: var(--accent-ink);
-    padding: 3px 9px;
-  }
-  .chip.ptr { background: var(--ptr); color: var(--accent-ink); }
-  .how { color: var(--muted); font-size: .88rem; }
-
-  .board-scroll { overflow-x: auto; padding-bottom: 6px; }
-  .board {
-    display: grid;
-    grid-template-columns: repeat(13, 50px);
-    grid-auto-rows: 50px;
-    gap: 5px;
-    width: max-content;
-    position: relative;
-  }
-  .key {
-    grid-row: var(--r); grid-column: var(--c);
-    background: var(--key-bg);
-    border: 1px solid var(--key-line);
-    border-radius: 4px;
-    box-shadow: var(--key-shadow);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 1px;
-    padding: 2px;
-    text-align: center;
-    overflow: hidden;
-  }
-  .key .t {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .82rem; font-weight: 500;
-    line-height: 1.15;
-    color: var(--ink);
-  }
-  .key .t.sm { font-size: .62rem; letter-spacing: -.01em; }
-  .key .s {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .5rem; letter-spacing: .02em;
-    color: var(--muted);
-    line-height: 1.1;
-  }
-  .key.mod  { background: var(--surface-2); }
-  .key.lay  { border-color: var(--accent); }
-  .key.lay .t { color: var(--accent); }
-  .key.ptr  { border-color: var(--ptr); }
-  .key.ptr .t { color: var(--ptr); }
-  .key.sys  { border-style: dashed; }
-  .key.ghost { background: transparent; border-style: dotted; box-shadow: none; }
-  .key.ghost .t { color: var(--ghost); font-weight: 400; }
-  .ball {
-    grid-row: 4; grid-column: 10 / span 3;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px dashed var(--ptr);
-    border-radius: 999px;
-    color: var(--ptr);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .6rem; letter-spacing: .08em;
-  }
-
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 8px 20px;
-    font-size: .78rem; color: var(--muted);
-    font-family: "IBM Plex Mono", monospace;
-  }
-  .legend b { color: var(--ink-2); font-weight: 500; }
-
-  /* ---------- generic blocks ---------- */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    padding: 16px 18px;
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .card h3 { color: var(--ink); }
-  .card p { color: var(--ink-2); font-size: .9rem; line-height: 1.7; }
-  kbd {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .82em;
-    background: var(--surface-2);
-    border: 1px solid var(--key-line);
-    border-radius: 3px;
-    padding: 1px 5px;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-  ol.howto { list-style: none; margin: 0; padding: 0; counter-reset: st; display: flex; flex-direction: column; }
+  ol.howto { list-style:none; margin:0; padding:0; counter-reset:st; display:flex; flex-direction:column; }
   ol.howto > li {
-    counter-increment: st;
-    display: flex; gap: 16px;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--line-soft);
+    counter-increment:st; display:flex; gap:14px;
+    padding:13px 0; border-bottom:1px solid var(--line-soft);
   }
-  ol.howto > li:last-child { border-bottom: 0; }
+  ol.howto > li:last-child { border-bottom:0; }
   ol.howto > li::before {
-    content: counter(st);
-    flex: none; width: 26px; height: 26px; margin-top: 2px;
-    border-radius: 50%;
-    background: var(--accent); color: var(--accent-ink);
-    font-family: "IBM Plex Mono", monospace; font-size: .76rem; font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
+    content:counter(st); flex:none; width:24px; height:24px; margin-top:2px;
+    border-radius:50%; background:var(--accent); color:var(--accent-ink);
+    font-family:"IBM Plex Mono",monospace; font-size:.74rem; font-weight:600;
+    display:flex; align-items:center; justify-content:center;
   }
-  ol.howto .body { display: flex; flex-direction: column; gap: 4px; }
-  ol.howto strong { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 1.02rem; font-weight: 700; }
-  ol.howto .body > span { color: var(--ink-2); font-size: .91rem; line-height: 1.75; }
-  .devname {
-    font-family: "IBM Plex Mono", monospace; font-weight: 600;
-    background: var(--accent); color: var(--accent-ink);
-    padding: 1px 8px;
+  ol.howto .body { display:flex; flex-direction:column; gap:3px; }
+  ol.howto strong { font-family:"Zen Kaku Gothic New",sans-serif; font-size:1rem; font-weight:700; }
+  ol.howto .body > span { color:var(--ink-2); font-size:.9rem; line-height:1.7; }
+  .devname { font-family:"IBM Plex Mono",monospace; font-weight:600; background:var(--accent); color:var(--accent-ink); padding:1px 8px; }
+
+  .panel { background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); padding:18px 22px; }
+  .note-warn { background:var(--warn-bg); border:1px solid color-mix(in srgb, var(--warn) 35%, transparent); color:var(--warn); padding:11px 15px; font-size:.89rem; line-height:1.7; }
+
+  .board-scroll { overflow-x:auto; padding-bottom:6px; }
+  .board { display:grid; grid-template-columns:repeat(13,50px); grid-auto-rows:50px; gap:5px; width:max-content; }
+  .key {
+    grid-row:var(--r); grid-column:var(--c);
+    background:var(--key-bg); border:1px solid var(--key-line); border-radius:4px; box-shadow:var(--key-shadow);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+    padding:2px; text-align:center; overflow:hidden;
   }
-  .osrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-top: 6px; }
-  .osbox { background: var(--surface-2); border: 1px solid var(--line-soft); padding: 10px 13px; font-size: .86rem; line-height: 1.65; color: var(--ink-2); }
-  .osbox b { display: block; font-family: "IBM Plex Mono", monospace; font-size: .7rem; letter-spacing: .1em; color: var(--accent); margin-bottom: 3px; }
-  .concept { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; }
-  .concept div {
-    border-left: 3px solid var(--accent);
-    background: var(--surface);
-    padding: 12px 14px;
-    font-size: .89rem; line-height: 1.7; color: var(--ink-2);
+  .key .t { font-family:"IBM Plex Mono",monospace; font-size:.82rem; font-weight:500; line-height:1.15; color:var(--ink); }
+  .key .s { font-family:"IBM Plex Mono",monospace; font-size:.5rem; color:var(--muted); line-height:1.1; }
+  .key.mod { background:var(--surface-2); }
+  .key.lay { border-color:var(--accent); }
+  .key.lay .t { color:var(--accent); }
+  .ball {
+    grid-row:4; grid-column:10 / span 3;
+    display:flex; align-items:center; justify-content:center;
+    border:1px dashed var(--ptr); border-radius:999px; color:var(--ptr);
+    font-family:"IBM Plex Mono",monospace; font-size:.6rem; letter-spacing:.08em;
   }
-  .concept b { display: block; color: var(--ink); font-family: "Zen Kaku Gothic New", sans-serif; font-size: .97rem; }
-  ul.checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+
+  .thumb { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+  .thumb div { border-left:3px solid var(--accent); background:var(--surface); padding:11px 14px; font-size:.89rem; line-height:1.65; color:var(--ink-2); }
+  .thumb b { display:block; color:var(--ink); font-family:"Zen Kaku Gothic New",sans-serif; font-size:.96rem; }
+
+  ul.checks { list-style:none; margin:0; padding:0; }
   ul.checks li {
-    display: flex; gap: 12px; align-items: flex-start;
-    padding: 9px 4px;
-    border-bottom: 1px solid var(--line-soft);
-    font-size: .93rem;
-    color: var(--ink-2);
+    display:flex; gap:11px; align-items:flex-start;
+    padding:8px 2px; border-bottom:1px solid var(--line-soft);
+    font-size:.92rem; color:var(--ink-2);
   }
   ul.checks li::before {
-    content: "";
-    flex: none;
-    width: 15px; height: 15px; margin-top: 5px;
-    border: 1.5px solid var(--muted);
-    border-radius: 2px;
+    content:""; flex:none; width:14px; height:14px; margin-top:6px;
+    border:1.5px solid var(--muted); border-radius:2px;
   }
-  footer {
-    color: var(--muted); font-size: .8rem;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-    font-family: "IBM Plex Mono", monospace;
-    line-height: 1.8;
+  kbd {
+    font-family:"IBM Plex Mono",monospace; font-size:.82em;
+    background:var(--surface-2); border:1px solid var(--key-line); border-radius:3px;
+    padding:1px 5px; color:var(--ink); white-space:nowrap;
   }
-  @media (max-width: 560px) {
-    h1 { font-size: 1.6rem; }
-    .wrap { padding: 28px 14px 64px; gap: 38px; }
-  }
+  a { color:var(--accent); }
+  footer { color:var(--muted); font-size:.8rem; border-top:1px solid var(--line); padding-top:16px; font-family:"IBM Plex Mono",monospace; line-height:1.8; }
+  @media (max-width:560px) { h1 { font-size:1.55rem; } .wrap { padding:28px 14px 56px; gap:34px; } }
 </style>
 </head>
 <body>
@@ -312,185 +129,73 @@
   <header class="masthead">
     <span class="eyebrow">moNa2 — 左右分割 / トラックボール / Bluetooth</span>
     <h1>moNa2 スタートガイド</h1>
-    <p>左右に分かれた、キーの数が少ないキーボードです。ふつうのキーボードとは使い方が違うところがあるので、まず接続、次に日本語の切り替え、最後にキーの配置の順で説明します。上から順に読めば使えるようになります。</p>
+    <p>まずつないで、動くことを確認するところまでの案内です。</p>
   </header>
 
   <section>
     <div class="sec-head">
-      <span class="eyebrow">01 — 最初にやること</span>
-      <h2>パソコンとつなぐ（初回だけ）</h2>
+      <span class="eyebrow">01</span>
+      <h2>つなぐ</h2>
     </div>
-    <div class="power">
+    <div class="panel">
       <ol class="howto">
         <li><div class="body">
-          <strong>左手側の電源を入れる</strong>
-          <span>左手側は「子機」です。単体ではパソコンと通信しません。先に入れて待たせておきます。</span>
+          <strong>左手側 → 右手側 の順に電源を入れる</strong>
+          <span>右手側が親機で、起動時に左手側を探しに行きます。逆の順番だと左半分が反応しないことがあります。</span>
         </div></li>
         <li><div class="body">
-          <strong>右手側の電源を入れる</strong>
-          <span>トラックボールが付いている右手側が「親機」です。左手側を探しに行き、パソコンとの接続も担当します。電源を入れると自動で接続待ちになります。</span>
-        </div></li>
-        <li><div class="body">
-          <strong>パソコンの Bluetooth 設定を開く</strong>
-          <div class="osrow">
-            <div class="osbox"><b>WINDOWS</b>設定 → Bluetooth とデバイス → デバイスを追加 → Bluetooth</div>
-            <div class="osbox"><b>MAC</b>システム設定 → Bluetooth</div>
-          </div>
-        </div></li>
-        <li><div class="body">
-          <strong>一覧から <span class="devname">mona2</span> を選ぶ</strong>
-          <span>この名前で表示されます。パスコードの入力は必要ありません。一覧に出るのは右手側の1台だけです。左手側は出てきませんが、それで正常です。</span>
-        </div></li>
-        <li><div class="body">
-          <strong>文字を打ってみる</strong>
-          <span>左右どちらのキーも反応すれば完了です。</span>
+          <strong>パソコンの Bluetooth 設定で <span class="devname">mona2</span> を選ぶ</strong>
+          <span>パスコードは不要です。一覧に出るのは右手側の1台だけで、左手側は出てきませんがそれで正常です。</span>
         </div></li>
       </ol>
-      <p class="note-warn">電源を入れたときに本体の LED が数回光りますが、電池残量と接続状態の合図なので故障ではありません。</p>
     </div>
-    <div class="cards">
-      <div class="card">
-        <h3>2台目以降につなぐ</h3>
-        <p>接続先を5つまで覚えられます。左右の親指キー（かな・英数）を<strong>同時に押しながら</strong> <kbd>Y</kbd> <kbd>U</kbd> <kbd>I</kbd> <kbd>O</kbd> <kbd>P</kbd> のどれかを押すと、1台目〜5台目に切り替わります。空いている番号に切り替えてから、上と同じ手順でつなぎます。</p>
-      </div>
-      <div class="card">
-        <h3>つながらなくなったら</h3>
-        <p>パソコン側でこのキーボードを一度削除し、キーボード側でも親指キー同時押し＋<kbd>/</kbd> で今の接続先を消してから、つなぎ直してください。</p>
-      </div>
-    </div>
+    <p class="note-warn">電源を入れたときに LED が数回光りますが、電池残量と接続状態の合図なので故障ではありません。</p>
   </section>
 
   <section>
     <div class="sec-head">
-      <span class="eyebrow">02 — 毎回のこと</span>
-      <h2>電源は「左 → 右」の順で入れる</h2>
+      <span class="eyebrow">02</span>
+      <h2>キーの配置</h2>
     </div>
-    <div class="power">
-      <div class="steps">
-        <div class="step">
-          <span class="n">STEP 1</span>
-          <strong>左手側から</strong>
-          <span>子機を先に起こしておきます。</span>
-        </div>
-        <div class="step">
-          <span class="n">STEP 2</span>
-          <strong>そのあと右手側</strong>
-          <span>親機が起動時に左手側を探しに行くので、この順番だと確実につながります。</span>
-        </div>
-      </div>
-      <p class="note-warn">右を先に入れると、探しに行った時点で左がまだ起きておらず、<strong>左半分だけ反応しない</strong>ことがあります。そうなったら左の電源を入れ直してください。故障ではありません。</p>
+    <div class="board-scroll"><div class="board" id="board"></div></div>
+    <p style="color:var(--ink-2);font-size:.93rem">数字や記号の専用キーはありません。親指のキーを<strong>押している間だけ</strong>、キーの意味が変わります。</p>
+    <div class="thumb">
+      <div><b>Space を押しっぱなし</b>数字と かっこ</div>
+      <div><b>Enter を押しっぱなし</b>記号と F1〜F12</div>
+      <div><b>かな / 英数 を押しっぱなし</b>矢印・Delete</div>
+      <div><b>かな と 英数 を同時に</b>Bluetooth の切り替え（<kbd>Y</kbd>〜<kbd>P</kbd> が接続先1〜5）</div>
     </div>
+    <p style="color:var(--ink-2);font-size:.93rem">日本語と英語は、親指の<strong>「英数」「かな」を短く押す</strong>と切り替わります。切り替わらない環境では、そのキーを押しっぱなしにしながら内側の <kbd>無変換</kbd> <kbd>変換</kbd> を押してください。</p>
+    <p style="color:var(--ink-2);font-size:.93rem">トラックボールを動かすと 0.5秒だけ指がクリックになります。<kbd>F</kbd> か <kbd>J</kbd> で左クリック、<kbd>D</kbd> か <kbd>K</kbd> で右クリックです。</p>
   </section>
 
   <section>
     <div class="sec-head">
-      <span class="eyebrow">03 — 日本語</span>
-      <h2>日本語と英語を切り替える</h2>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <h3>親指のキーを短く押す</h3>
-        <p>スペースの左右にある<strong>「英数」（左）と「かな」（右）</strong>を短く押すと切り替わります。Mac の日本語キーボードと同じ配置です。</p>
-      </div>
-      <div class="card">
-        <h3>Windows で切り替わらないとき</h3>
-        <p>「英数」か「かな」を<strong>押しっぱなしにしながら</strong>、内側にある小さいキー（左＝無変換 / 右＝変換）を押してください。こちらなら切り替わる環境が多いです。</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <span class="eyebrow">04 — 配列</span>
-      <h2>キーが少ないぶん、親指キーで切り替える</h2>
-      <p style="color:var(--ink-2)">数字も記号も矢印も、専用のキーはありません。親指のキーを<strong>押している間だけ</strong>、キーの意味が変わります。押すのをやめれば元に戻ります。</p>
-    </div>
-    <div class="concept">
-      <div><b>Space を押しっぱなし</b>数字と かっこ が出る</div>
-      <div><b>Enter を押しっぱなし</b>記号と F1〜F12 が出る</div>
-      <div><b>かな / 英数 を押しっぱなし</b>矢印・Delete・変換キーが出る</div>
-      <div><b>かな と 英数 を同時に</b>Bluetooth の設定になる</div>
-    </div>
-    <p style="color:var(--ink-2);font-size:.92rem">下の図の<strong>薄い点線のキー</strong>は「そこは何も変わらない」という意味で、いつもどおりの文字が出ます。</p>
-    <div id="layers" class="layer-stack" style="display:flex;flex-direction:column;gap:40px"></div>
-    <div class="legend">
-      <span><b>■ 実線</b> そのとき有効なキー</span>
-      <span><b>▢ 点線</b> いつもどおりの文字が出る</span>
-      <span><b style="color:var(--accent)">■ 緑枠</b> 押している間だけ切り替わるキー</span>
-      <span><b style="color:var(--ptr)">■ 橙枠</b> マウス関連</span>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <span class="eyebrow">05 — トラックボール</span>
-      <h2>ボールとクリックとスクロール</h2>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <h3>クリック</h3>
-        <p>ボールを動かすと、そこから <strong>0.5秒のあいだ</strong>だけ指がクリックボタンになります。<kbd>F</kbd> か <kbd>J</kbd> で左クリック、<kbd>D</kbd> か <kbd>K</kbd> で右クリック、<kbd>S</kbd> か <kbd>L</kbd> で中クリックです。</p>
-      </div>
-      <div class="card">
-        <h3>スクロール</h3>
-        <p>「かな」か「英数」を押しっぱなしにしながらボールを転がすと、カーソル移動ではなくスクロールになります。</p>
-      </div>
-      <div class="card">
-        <h3>文字を打っている最中は安心</h3>
-        <p>打鍵の直後はクリックに切り替わらないようにしてあるので、タイピング中にボールへ触れても文字が消えたりしません。</p>
-      </div>
-      <div class="card">
-        <h3>左手側のダイヤル</h3>
-        <p>回すとスクロールします。Space を押しながらだと左右スクロール、「かな / 英数」を押しながらだと音量調整になります。</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <span class="eyebrow">06 — 確認</span>
-      <h2>ひととおり触ってみる</h2>
+      <span class="eyebrow">03</span>
+      <h2>ひととおり確認</h2>
     </div>
     <ul class="checks">
-      <li>左手 21キー・右手 21キーがすべて反応する</li>
-      <li>「かな」「英数」を短く押して、日本語と英語が切り替わる</li>
-      <li>Space を押しっぱなしにすると数字が出る</li>
-      <li>Enter を押しっぱなしにすると記号が出る</li>
-      <li>「かな」か「英数」を押しっぱなしにすると <kbd>I</kbd> <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> が矢印になる</li>
-      <li>トラックボールでポインタが動き、上下左右の向きが合っている</li>
-      <li>ボールを動かした直後に <kbd>F</kbd> または <kbd>J</kbd> で左クリックできる</li>
+      <li>左右のキーがすべて反応する</li>
+      <li>「かな」「英数」で日本語と英語が切り替わる</li>
+      <li>Space・Enter を押しっぱなしにすると数字・記号が出る</li>
+      <li>トラックボールでポインタが動き、<kbd>F</kbd> でクリックできる</li>
       <li>左手側のダイヤルでスクロールできる</li>
-      <li>左右とも電池残量がパソコン側に表示される</li>
     </ul>
   </section>
 
   <section>
     <div class="sec-head">
-      <span class="eyebrow">07 — 困ったとき</span>
-      <h2>うまくいかないとき</h2>
+      <span class="eyebrow">04</span>
+      <h2>あとは好きに変えてください</h2>
     </div>
-    <div class="cards">
-      <div class="card">
-        <h3>左半分が反応しない</h3>
-        <p>電源を入れる順番が逆だった可能性があります。左 → 右の順で入れ直してください。</p>
-      </div>
-      <div class="card">
-        <h3>パソコンにつながらない</h3>
-        <p>パソコン側でこのキーボードを削除し、親指キー同時押し＋<kbd>/</kbd> でキーボード側の接続先も消してから、もう一度つなぎ直してください。</p>
-      </div>
-      <div class="card">
-        <h3>この図と配列が違う</h3>
-        <p>本体に前の設定が残っています。下のリポジトリにある <code>settings_reset</code> を左右それぞれに書き込んでから、通常のファームウェアを書き直してください。</p>
-      </div>
-      <div class="card">
-        <h3>配列を自分好みに変えたい</h3>
-        <p>設定はすべて公開しています。書き換えたものを本体裏のリセットボタンを素早く2回押して出てくるドライブに入れれば、自由に変えられます。</p>
-      </div>
+    <p style="color:var(--ink-2)">設定は ZMK で、すべて公開しています。全レイヤーの詳しい配列図もリポジトリにあります。書き換えたファームウェアは、本体裏のリセットボタンを素早く2回押すと出てくるドライブに入れれば反映されます。</p>
+    <div class="panel" style="font-family:'IBM Plex Mono',monospace;font-size:.9rem;word-break:break-all">
+      github.com/gomawata/zmk-config-moNa2-v2<br>
+      <span style="color:var(--muted)">branch: standard-keymap</span>
     </div>
   </section>
 
   <footer>
-    設定・ファームウェア: github.com/gomawata/zmk-config-moNa2-v2 — branch: standard-keymap<br>
     トラックボールは COROPIT 版の設定で書き込んでいます。
   </footer>
 
@@ -498,7 +203,6 @@
 
 <script>
 (function () {
-  // 物理配列: 各行で実際にキーがある列（mona2.dtsi / mona2.json の座標に対応）
   var ROWCOLS = [
     [0,1,2,3,4,        8,9,10,11,12],
     [0,1,2,3,4,      7,8,9,10,11,12],
@@ -506,12 +210,9 @@
     [0,1,2,3,4,5,    7,8,         12]
   ];
   var POS = [];
-  ROWCOLS.forEach(function (cols, r) {
-    cols.forEach(function (c) { POS.push([r + 1, c + 1]); });
-  });
+  ROWCOLS.forEach(function (cols, r) { cols.forEach(function (c) { POS.push([r + 1, c + 1]); }); });
 
   function k(t, s, cls) { return { t: t, s: s || "", cls: cls || "" }; }
-  var _ = null; // 透過（下のレイヤーがそのまま出る）
 
   var BASE = [
     k("Q"),k("W"),k("E"),k("R"),k("T"),                     k("Y"),k("U"),k("I"),k("O"),k("P"),
@@ -522,123 +223,30 @@
     k("かな","長押し矢印","lay"),k("Space","長押し数字","lay"),k("Alt","","mod")
   ];
 
-  var LAYERS = [
-    {
-      name: "基本レイヤー", tag: "LAYER 0",
-      how: "何も押していないときの配列。ふだんの文字入力はここ。",
-      keys: BASE, ball: "TRACKBALL"
-    },
-    {
-      name: "数字・かっこ", tag: "LAYER 1",
-      how: "Space を押しっぱなしにしている間だけ。",
-      keys: [
-        k("1"),k("2"),k("3"),k("4"),k("5"),            k("6"),k("7"),k("8"),k("9"),k("0"),
-        _,_,k("["),k("]"),_,                      _,   _,k("("),k(")"),_,k("\\"),
-        _,_,_,_,_,_,                              _,   _,_,_,_,k("|"),
-        _,_,_,_,_,_,                              _,   _,                      _
-      ]
-    },
-    {
-      name: "記号・ファンクション", tag: "LAYER 2",
-      how: "Enter を押しっぱなしにしている間だけ。",
-      keys: [
-        k("!"),k("@"),k("#"),k("$"),k("%"),             k("^"),k("&"),k("*"),k("-"),k("_"),
-        k("`"),k("~"),k("\""),k("'"),_,           _,    k("中ｸﾘｯｸ","","ptr"),k("左ｸﾘｯｸ","","ptr"),k("右ｸﾘｯｸ","","ptr"),k("="),k("+"),
-        k("F1"),k("F2"),k("F3"),k("F4"),k("F5"),k("F11"), k("F12"),k("F6"),k("F7"),k("F8"),k("F9"),k("F10"),
-        _,_,_,_,_,_,                              _,    _,                      _
-      ]
-    },
-    {
-      name: "カーソル・ウィンドウ操作", tag: "LAYER 3",
-      how: "左右どちらかの親指キー（かな / 英数）を押しっぱなしにしている間だけ。この間はトラックボールがスクロールになる。",
-      keys: [
-        _,k("⇧Tab"),k("PrtSc"),k("Ctrl+Tab"),_,        _,k("Home"),k("↑"),k("End"),_,
-        _,k("GUI+←"),k("GUI+→"),k("Ctl+GUI+←"),k("Ctl+GUI+→"), _, _,k("←"),k("↓"),k("→"),_,
-        _,k("Shift","","mod"),k("GUI+⇧+←"),k("GUI+⇧+→"),_,k("無変換"), k("変換"),_,k("Del"),k("PgUp"),k("PgDn"),_,
-        _,_,_,_,_,_,                              _,    _,                      _
-      ],
-      ball: "SCROLL"
-    },
-    {
-      name: "Bluetooth・書き込み", tag: "LAYER 4",
-      how: "左右の親指キー（かな・英数）を同時に押している間だけ。",
-      keys: [
-        _,_,_,_,_,                                 k("BT 1","","lay"),k("BT 2","","lay"),k("BT 3","","lay"),k("BT 4","","lay"),k("BT 5","","lay"),
-        _,_,_,_,_,                            _,   _,_,_,_,_,
-        _,_,_,_,_,_,                          k("書込ﾓｰﾄﾞ","","sys"), _,_,_,_,k("接続消去","","sys"),
-        _,_,_,_,_,_,                          _,   _,                      k("全消去","","sys")
-      ]
-    },
-    {
-      name: "クリック（自動）", tag: "MOUSE",
-      how: "トラックボールを動かすと 0.5秒だけ自動で有効になる。指を動かさずにクリックできる。",
-      ptr: true,
-      keys: [
-        _,_,_,_,_,                                 _,_,_,_,_,
-        _,k("中","","ptr"),k("右","","ptr"),k("左","","ptr"),_,  _,  _,k("左","","ptr"),k("右","","ptr"),k("中","","ptr"),_,
-        _,_,_,_,_,_,                          _,   _,_,_,_,_,
-        _,_,_,_,_,_,                          _,   _,                      _
-      ],
-      ball: "TRACKBALL"
+  var board = document.getElementById("board");
+  BASE.forEach(function (src, i) {
+    var pos = POS[i];
+    var el = document.createElement("div");
+    el.className = "key " + src.cls;
+    el.style.setProperty("--r", pos[0]);
+    el.style.setProperty("--c", pos[1]);
+    var t = document.createElement("span");
+    t.className = "t";
+    t.textContent = src.t;
+    el.appendChild(t);
+    if (src.s) {
+      var s = document.createElement("span");
+      s.className = "s";
+      s.textContent = src.s;
+      el.appendChild(s);
     }
-  ];
-
-  var host = document.getElementById("layers");
-
-  LAYERS.forEach(function (layer) {
-    var sec = document.createElement("div");
-    sec.className = "layer";
-
-    var head = document.createElement("div");
-    head.className = "layer-head";
-    var chip = document.createElement("span");
-    chip.className = "chip" + (layer.ptr ? " ptr" : "");
-    chip.textContent = layer.tag;
-    var h3 = document.createElement("h3");
-    h3.textContent = layer.name;
-    var how = document.createElement("span");
-    how.className = "how";
-    how.textContent = layer.how;
-    head.appendChild(chip); head.appendChild(h3); head.appendChild(how);
-
-    var scroll = document.createElement("div");
-    scroll.className = "board-scroll";
-    var board = document.createElement("div");
-    board.className = "board";
-
-    layer.keys.forEach(function (key, i) {
-      var pos = POS[i];
-      var el = document.createElement("div");
-      var isGhost = !key;
-      var src = key || BASE[i];
-      el.className = "key " + (isGhost ? "ghost" : (src.cls || ""));
-      el.style.setProperty("--r", pos[0]);
-      el.style.setProperty("--c", pos[1]);
-      var t = document.createElement("span");
-      t.className = "t" + (src.t.length > 4 ? " sm" : "");
-      t.textContent = src.t;
-      el.appendChild(t);
-      if (!isGhost && src.s) {
-        var s = document.createElement("span");
-        s.className = "s";
-        s.textContent = src.s;
-        el.appendChild(s);
-      }
-      board.appendChild(el);
-    });
-
-    if (layer.ball) {
-      var ball = document.createElement("div");
-      ball.className = "ball";
-      ball.textContent = layer.ball;
-      board.appendChild(ball);
-    }
-
-    scroll.appendChild(board);
-    sec.appendChild(head);
-    sec.appendChild(scroll);
-    host.appendChild(sec);
+    board.appendChild(el);
   });
+
+  var ball = document.createElement("div");
+  ball.className = "ball";
+  ball.textContent = "TRACKBALL";
+  board.appendChild(ball);
 })();
 </script>
 </body>
