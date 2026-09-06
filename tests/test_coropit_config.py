@@ -7,6 +7,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 BUILD_YAML = ROOT / "build.yaml"
 COROPIT_CONF = ROOT / "config" / "coropit.conf"
+MONA2_R_OVERLAY = ROOT / "boards" / "shields" / "mona2" / "mona2_r.overlay"
+PAW3222_OVERLAY = ROOT / "config" / "paw3222.overlay"
 
 
 def _yaml_value(value):
@@ -44,9 +46,28 @@ def _target(artifact_name):
 
 
 def _extra_conf_name(target):
+    selected = _selected_source_path(target, "EXTRA_CONF_FILE")
+    return selected.name if selected else None
+
+
+def _selected_source_path(target, cmake_variable):
     args = target.get("cmake-args", "")
-    match = re.search(r"-DEXTRA_CONF_FILE=([^\s]+)", args)
-    return Path(match.group(1)).name if match else None
+    match = re.search(rf"-D{re.escape(cmake_variable)}=([^\s]+)", args)
+    if not match:
+        return None
+
+    relative = match.group(1)
+    # Model the ../../config path from a virtual ZMK application directory.
+    workspace = ROOT
+    selected = (workspace / "zmk" / "app" / relative).resolve()
+    expected_prefix = workspace / "config"
+    try:
+        local = expected_prefix / selected.relative_to(expected_prefix)
+    except ValueError as exc:
+        raise ValueError(f"{cmake_variable} path escapes config: {relative}") from exc
+    if not local.is_file():
+        raise FileNotFoundError(local)
+    return local
 
 
 def _config_values(path):
@@ -65,14 +86,7 @@ def _source_assignments(target):
     values = _config_values(ROOT / "config" / "mona2_r.conf")
     for arg in shlex.split(target.get("cmake-args", "")):
         if arg.startswith("-DEXTRA_CONF_FILE="):
-            relative = arg.split("=", 1)[1]
-            # Model the ../../config path from a virtual ZMK application directory.
-            workspace = ROOT
-            selected = (workspace / "zmk" / "app" / relative).resolve()
-            expected_prefix = workspace / "config"
-            local = expected_prefix / selected.relative_to(expected_prefix)
-            if not local.is_file():
-                raise FileNotFoundError(local)
+            local = _selected_source_path(target, "EXTRA_CONF_FILE")
             values.update(_config_values(local))
     return values
 
@@ -87,12 +101,36 @@ class CoropitConfigTest(unittest.TestCase):
         self.assertEqual(coropit["shield"], "mona2_r rgbled_adapter")
         self.assertEqual(coropit["snippet"], "studio-rpc-usb-uart")
         self.assertEqual(_extra_conf_name(coropit), "coropit.conf")
+        self.assertEqual(
+            _selected_source_path(coropit, "EXTRA_DTC_OVERLAY_FILE"),
+            ROOT / "config" / "coropit.overlay",
+        )
 
         self.assertIsNone(_extra_conf_name(stock))
+        self.assertIsNone(_selected_source_path(stock, "EXTRA_DTC_OVERLAY_FILE"))
         self.assertEqual(stock["artifact-name"], "mona2_r-pmw3610")
         self.assertEqual(_extra_conf_name(paw3222), "paw3222.conf")
+        self.assertEqual(
+            _selected_source_path(paw3222, "EXTRA_DTC_OVERLAY_FILE"),
+            PAW3222_OVERLAY,
+        )
         self.assertIn("EXTRA_DTC_OVERLAY_FILE=../../config/paw3222.overlay", paw3222["cmake-args"])
         self.assertNotIn("coropit.conf", paw3222["cmake-args"])
+
+    def test_selected_overlays_preserve_sensor_properties(self):
+        coropit_overlay = _selected_source_path(
+            _target("mona2_r-coropit"), "EXTRA_DTC_OVERLAY_FILE"
+        )
+        self.assertRegex(
+            coropit_overlay.read_text(encoding="utf-8"),
+            r"&trackball_central\s*\{\s*cpi\s*=\s*<3200>;\s*\}",
+        )
+
+        self.assertIn("cpi = <600>;", MONA2_R_OVERLAY.read_text(encoding="utf-8"))
+        self.assertIn(
+            "/delete-property/ cpi;",
+            PAW3222_OVERLAY.read_text(encoding="utf-8"),
+        )
 
     def test_actual_source_assignments_preserve_stock_and_sensor_variants(self):
         coropit_config = _source_assignments(_target("mona2_r-coropit"))
@@ -117,6 +155,17 @@ class CoropitConfigTest(unittest.TestCase):
         target["cmake-args"] = "-DEXTRA_CONF_FILE=../wrong/coropit.conf"
         with self.assertRaises((ValueError, FileNotFoundError)):
             _source_assignments(target)
+
+    def test_invalid_or_missing_selected_extra_overlay_path_is_rejected(self):
+        bad_target = dict(_target("mona2_r-coropit"))
+        bad_target["cmake-args"] = "-DEXTRA_DTC_OVERLAY_FILE=../wrong/coropit.overlay"
+        with self.assertRaises(ValueError):
+            _selected_source_path(bad_target, "EXTRA_DTC_OVERLAY_FILE")
+
+        missing_target = dict(_target("mona2_r-coropit"))
+        missing_target["cmake-args"] = "-DEXTRA_DTC_OVERLAY_FILE=../../config/missing.overlay"
+        with self.assertRaises(FileNotFoundError):
+            _selected_source_path(missing_target, "EXTRA_DTC_OVERLAY_FILE")
 
 
 if __name__ == "__main__":
