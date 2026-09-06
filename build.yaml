@@ -29,6 +29,11 @@ include:
   - board: xiao_ble/nrf52840/zmk
     shield: mona2_r rgbled_adapter
     snippet: studio-rpc-usb-uart
+    cmake-args: '-DEXTRA_CONF_FILE=../../config/coropit.conf'
+    artifact-name: mona2_r-coropit
+  - board: xiao_ble/nrf52840/zmk
+    shield: mona2_r rgbled_adapter
+    snippet: studio-rpc-usb-uart
     # NOTE: Zephyr は devicetree を Kconfig より先に処理するため、
     #       .overlay 内の #ifdef CONFIG_TRACKBALL_PAW3222 はクリーンビルドで効かない。
     #       センサの切り替えは paw3222.overlay 側で行う。
