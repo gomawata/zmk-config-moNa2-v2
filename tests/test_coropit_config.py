@@ -9,6 +9,7 @@ BUILD_YAML = ROOT / "build.yaml"
 COROPIT_CONF = ROOT / "config" / "coropit.conf"
 MONA2_R_OVERLAY = ROOT / "boards" / "shields" / "mona2" / "mona2_r.overlay"
 PAW3222_OVERLAY = ROOT / "config" / "paw3222.overlay"
+KEYMAP = ROOT / "config" / "mona2.keymap"
 
 
 def _yaml_value(value):
@@ -91,7 +92,39 @@ def _source_assignments(target):
     return values
 
 
+def _layer_bindings(layer_name):
+    source = KEYMAP.read_text(encoding="utf-8")
+    match = re.search(
+        rf"{re.escape(layer_name)}\s*\{{.*?bindings\s*=\s*<(?P<body>.*?)>;",
+        source,
+        re.DOTALL,
+    )
+    if match is None:
+        raise AssertionError(f"layer not found: {layer_name}")
+    return re.findall(r"&[^&\s]+(?:\s+(?!&)[^&\s]+)*", match.group("body"))
+
+
 class CoropitConfigTest(unittest.TestCase):
+    def test_mac_thumb_bindings_and_win_layer_baseline(self):
+        mac = _layer_bindings("mac_layer")
+        self.assertEqual(len(mac), 42)
+        self.assertEqual(mac[36:39], ["&lt 3 LANG2", "&lt 5 SPACE", "&lt 7 LANG1"])
+
+        self.assertEqual(
+            _layer_bindings("win_layer"),
+            [
+                "&kp Q", "&kp W", "&kp E", "&kp R", "&kp T", "&kp Y",
+                "&kp U", "&kp I", "&kp O", "&kp P", "&kp A", "&kp S",
+                "&kp D", "&kp F", "&kp G", "&kp F13", "&kp H", "&kp J",
+                "&kp K", "&kp L", "&kp SEMICOLON", "&mt LEFT_SHIFT Z",
+                "&kp X", "&kp C", "&kp V", "&kp B", "&kp F14", "&kp F15",
+                "&kp N", "&kp M", "&kp COMMA", "&kp DOT", "&kp SLASH",
+                "&kp LCTRL", "&kp LEFT_WIN", "&kp F16", "&kp BACKSPACE",
+                "&lt 2 ENTER", "&lt_to_layer_0 3 LANG2", "&lt_to_layer_0 3 LANG1",
+                "&lt 1 SPACE", "&kp LEFT_ALT",
+            ],
+        )
+
     def test_coropit_target_is_dedicated_and_other_right_targets_stay_separate(self):
         coropit = _target("mona2_r-coropit")
         stock = _target("mona2_r-pmw3610")
