@@ -17,7 +17,7 @@ DYA Studio は ZMK Studio をベースに、
 1. 本リポジトリをビルドし、生成された `mona2_r-...uf2`（中央側＝右手）と `mona2_l-...uf2`（周辺側＝左手）をそれぞれの XIAO BLE に書き込みます。
 2. 中央側（右手）を **USB ケーブル** で PC に接続します。
 3. Chrome / Edge などの WebUSB 対応ブラウザで **[https://studio.dya.cormoran.works/](https://studio.dya.cormoran.works/)** を開きます。
-4. キーボード側で `BLE` レイヤー(レイヤー10/11)を有効にし、右下に配置した **`&studio_unlock`** キーを押してアンロック。
+4. いずれのベースでも `/` を長押しして `SETTINGS` レイヤー（レイヤー11/12）を有効にし、`&studio_unlock` キーを押してアンロック。
 5. DYA Studio 側で「Connect」を押し、USB デバイスとして mona2 を選択。
 6. キーマップ／マクロ／コンボ／トラックボール設定を編集できます。
 
@@ -41,7 +41,7 @@ DYA Studio は ZMK Studio をベースに、
 
 | スロット | 内容 | キー位置 |
 | --- | --- | --- |
-| 0 | `&lt 4 ESC` | 38, 39 |
+| 0 | `&lt 2 ESC` | 38, 39 |
 | 1 | `&kp TAB` | 11, 12 |
 
 スロットは全部で 16 個 (`CONFIG_ZMK_RUNTIME_COMBO_MAX_COMBOS`) あるので、残り 14 個は DYA Studio から自由に追加できます。既存スロットを Studio 上で書き換えた場合は、Web UI の **Reset to Default** でここの値へ戻せます。
@@ -66,6 +66,39 @@ DYA Studio は ZMK Studio をベースに、
 > **Note:**
 > - DYA Studio で行った変更は **中央側 (右手) の Flash** に保存されます。初期化したい場合は `settings_reset` ファームウェアを書き込んでください。
 > - **ZMK v0.4 系への移行に伴い、以前の設定（保存済みキーマップ・トラックボール設定）は引き継がれません。** 書き込み後に DYA Studio から設定し直してください。
+
+## COROPIT 初期配列と接続先の選択
+
+初期化直後と未設定の接続先では、レイヤー0の `APPLE` が選ばれます。`DF_SEL` による
+OS 選択は、現在選択している USB または BLE プロファイルごとに保存されます。
+対象の BLE プロファイルは先に端末とのペアリング・接続を完了し、入力がその端末へ届くのを確認してから `H` / `J`
+を押してください。USB は `K` で USB 出力に切り替え、USB へ入力が届くことを確認してから設定します。
+
+| レイヤー | 名前 | 用途 |
+| --- | --- | --- |
+| 0 | APPLE | 初期ベース。左下は Control / Command / Option |
+| 1 | WIN | Windows ベース。左下は Control / Win / Alt |
+| 2 | AUTO_MOUSE | COROPIT の移動中だけ一時的に有効になるクリック層 |
+| 3 / 4 | NUM_W / NUM_M | Windows / Apple の数字層 |
+| 5 / 6 | MOUSE_W / MOUSE_M | Windows / Apple のマウス層 |
+| 7 / 8 | SCRL_W / SCRL_M | Windows / Apple のスクロール層 |
+| 9 / 10 | FN_W / FN_M | Windows / Apple の機能層 |
+| 11 / 12 | SETTINGS_W / SETTINGS_A | 共通の接続先・OS 設定層 |
+
+| 操作 | 動作 |
+| --- | --- |
+| `/` 長押し（どちらのベースでも可） | SETTINGS を開く |
+| SETTINGS の `Y` / `U` / `I` / `O` / `P` | BLE 0（Mac）/ 1（iPad）/ 2（iPhone）/ 3 / 4 を選択し、BLE 出力へ切替 |
+| SETTINGS の `H` / `J` | 現在の接続先の OS を Apple（layer 0）/ Windows（layer 1）へ明示選択して保存 |
+| SETTINGS の `K` | USB 出力へ切替 |
+| Apple の `LANG2` / `Space` / `LANG1` 長押し | NUM_M / MOUSE_M / SCRL_M |
+| Windows の `LANG2` / `Space` / `LANG1` 長押し | NUM_W / MOUSE_W / SCRL_W |
+
+Apple と Windows のベースは同じ文字・Enter・Backspace配置です。Apple の `;` 長押しは
+`MOUSE_M` を開きます。COROPIT では最後の通常キー入力から 100 ms 経過後の最初のボール移動で `AUTO_MOUSE` が有効になり、
+停止から 500 ms 後、または通常キーの押下で戻ります。自動層は内側の3キーだけを左・中・右クリックにし、
+編集ショートカットは送出しません。手動の NUM / MOUSE / SCRL / SETTINGS 層が有効な間は
+その層の明示バインドが優先されます。
 
 ## ZMK v0.4 系への移行で変わった点
 
@@ -105,18 +138,10 @@ DYA Studio の診断ページには専用モジュールが必要なパネルが
 
 ### OS ごとのデフォルトレイヤー
 
-接続先の OS（USB / BLE プロファイルごと）を判定して、起動時のデフォルトレイヤーを
-自動で切り替えられます。mona2 はベースレイヤーが 0 = `WIN` / 1 = `MAC` に分かれているので、
-選択可能な範囲を `CONFIG_ZMK_DEFAULT_LAYER_MIN_INDEX=0` /
-`CONFIG_ZMK_DEFAULT_LAYER_MAX_INDEX=1` に設定しています。
-実際の割り当ては DYA Studio の「OSごとのデフォルトレイヤー」パネルから行ってください。
-
-キーマップには `&df` behavior も入れてあるので、DYA Studio のキーマップエディタから
-`&df DF_SEL <レイヤー>`（指定レイヤーをデフォルトに）や `&df DF_INC`（次のレイヤーへ）を
-任意のキーに割り当てることもできます。
-
-> os-detection 自身の `CONFIG_ZMK_OS_DETECTION_LAYER_*` による自動切替は
-> default-layer モジュールと競合するため有効にしないでください。
+ベースレイヤーは 0 = `APPLE`、1 = `WIN` です。`CONFIG_ZMK_DEFAULT_LAYER_MIN_INDEX=0` /
+`CONFIG_ZMK_DEFAULT_LAYER_MAX_INDEX=1` により、この2つだけを `&df DF_SEL` の対象にしています。
+OS 検出は診断用に有効のままですが、`CONFIG_ZMK_DEFAULT_LAYER_OS_DETECTION=n` としており、
+検出結果でレイヤーを自動切替しません。設定層の `H` / `J` で明示選択してください。
 
 `zmk-feature-default-layer` だけは `main` ではなく `codex/custom-rpc-rewrite` ブランチを
 使っています。`main` には DYA Studio 用の custom Studio RPC が入っておらず、

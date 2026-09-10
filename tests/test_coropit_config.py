@@ -7,9 +7,12 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 BUILD_YAML = ROOT / "build.yaml"
 COROPIT_CONF = ROOT / "config" / "coropit.conf"
+COROPIT_OVERLAY = ROOT / "config" / "coropit.overlay"
+MONA2_R_CONF = ROOT / "config" / "mona2_r.conf"
 MONA2_R_OVERLAY = ROOT / "boards" / "shields" / "mona2" / "mona2_r.overlay"
 PAW3222_OVERLAY = ROOT / "config" / "paw3222.overlay"
 KEYMAP = ROOT / "config" / "mona2.keymap"
+README = ROOT / "README.md"
 
 
 def _yaml_value(value):
@@ -104,26 +107,75 @@ def _layer_bindings(layer_name):
     return re.findall(r"&[^&\s]+(?:\s+(?!&)[^&\s]+)*", match.group("body"))
 
 
-class CoropitConfigTest(unittest.TestCase):
-    def test_mac_thumb_bindings_and_win_layer_baseline(self):
-        mac = _layer_bindings("mac_layer")
-        self.assertEqual(len(mac), 42)
-        self.assertEqual(mac[36:39], ["&lt 3 LANG2", "&lt 5 SPACE", "&lt 7 LANG1"])
+def _layer_names():
+    return re.findall(
+        r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\{\s*\n\s*display-name\s*=",
+        KEYMAP.read_text(encoding="utf-8"),
+        re.MULTILINE,
+    )
 
+
+class CoropitConfigTest(unittest.TestCase):
+    def test_apple_and_windows_base_layers_are_explicit(self):
         self.assertEqual(
-            _layer_bindings("win_layer"),
+            _layer_names(),
             [
-                "&kp Q", "&kp W", "&kp E", "&kp R", "&kp T", "&kp Y",
-                "&kp U", "&kp I", "&kp O", "&kp P", "&kp A", "&kp S",
-                "&kp D", "&kp F", "&kp G", "&kp F13", "&kp H", "&kp J",
-                "&kp K", "&kp L", "&kp SEMICOLON", "&mt LEFT_SHIFT Z",
-                "&kp X", "&kp C", "&kp V", "&kp B", "&kp F14", "&kp F15",
-                "&kp N", "&kp M", "&kp COMMA", "&kp DOT", "&kp SLASH",
-                "&kp LCTRL", "&kp LEFT_WIN", "&kp F16", "&kp BACKSPACE",
-                "&lt 2 ENTER", "&lt_to_layer_0 3 LANG2", "&lt_to_layer_0 3 LANG1",
-                "&lt 1 SPACE", "&kp LEFT_ALT",
+                "apple_layer", "win_layer", "auto_mouse", "num_win", "num_mac",
+                "mouse_win", "mouse_mac", "scroll_win", "scroll_mac", "function_win",
+                "function_mac", "ble_win", "ble_mac",
             ],
         )
+
+        apple = _layer_bindings("apple_layer")
+        win = _layer_bindings("win_layer")
+        self.assertEqual(len(apple), 42)
+        self.assertEqual(len(win), 42)
+        self.assertEqual(apple[33:36], ["&kp LCTRL", "&kp LEFT_GUI", "&kp LEFT_ALT"])
+        self.assertEqual(win[33:36], ["&kp LCTRL", "&kp LEFT_WIN", "&kp LEFT_ALT"])
+        self.assertEqual(apple[36:42], [
+            "&lt 4 LANG2", "&lt 6 SPACE", "&lt 8 LANG1", "&kp ENTER",
+            "&kp BACKSPACE", "&kp RIGHT_SHIFT",
+        ])
+        self.assertEqual(win[36:42], [
+            "&lt 3 LANG2", "&lt 5 SPACE", "&lt 7 LANG1", "&kp ENTER",
+            "&kp BACKSPACE", "&kp RIGHT_SHIFT",
+        ])
+        self.assertEqual(apple[20], "&lt 6 SEMICOLON")
+        self.assertEqual(apple[32], "&lt 12 SLASH")
+        self.assertEqual(win[32], "&lt 11 SLASH")
+        self.assertEqual(apple[:20], win[:20])
+        self.assertTrue(apple[20].endswith("SEMICOLON"))
+        self.assertTrue(win[20].endswith("SEMICOLON"))
+        self.assertEqual(apple[21:32], win[21:32])
+        self.assertTrue(apple[32].endswith("SLASH"))
+        self.assertTrue(win[32].endswith("SLASH"))
+
+    def test_auto_mouse_is_low_priority_and_only_clicks_three_positions(self):
+        auto = _layer_bindings("auto_mouse")
+        self.assertEqual(len(auto), 42)
+        self.assertEqual(auto[15], "&mkp MB1")
+        self.assertEqual(auto[26:28], ["&mkp MB3", "&mkp MB2"])
+        self.assertTrue(all(
+            binding == "&trans"
+            for position, binding in enumerate(auto)
+            if position not in {15, 26, 27}
+        ))
+        source = KEYMAP.read_text(encoding="utf-8")
+        self.assertIn("bindings = <&lt 2 ESC>;", source)
+
+    def test_manual_layers_do_not_fall_through_to_auto_clicks(self):
+        for layer_name in (
+            "num_win", "num_mac", "mouse_win", "mouse_mac", "scroll_win", "scroll_mac",
+            "ble_win", "ble_mac",
+        ):
+            bindings = _layer_bindings(layer_name)
+            self.assertEqual(len(bindings), 42)
+            for position in (15, 26, 27):
+                self.assertNotEqual(
+                    bindings[position], "&trans",
+                    f"{layer_name} position {position} must mask AUTO_MOUSE",
+                )
+        self.assertEqual(_layer_bindings("ble_win"), _layer_bindings("ble_mac"))
 
     def test_coropit_target_is_dedicated_and_other_right_targets_stay_separate(self):
         coropit = _target("mona2_r-coropit")
@@ -165,6 +217,20 @@ class CoropitConfigTest(unittest.TestCase):
             PAW3222_OVERLAY.read_text(encoding="utf-8"),
         )
 
+    def test_coropit_enables_auto_mouse_and_scroll_mask_follows_layers(self):
+        coropit_overlay = COROPIT_OVERLAY.read_text(encoding="utf-8")
+        self.assertRegex(
+            coropit_overlay,
+            r"&mouse_runtime_input_processor\s*\{\s*temp-layer-enabled;\s*"
+            r"temp-layer\s*=\s*<2>;\s*"
+            r"temp-layer-activation-delay-ms\s*=\s*<100>;\s*"
+            r"temp-layer-deactivation-delay-ms\s*=\s*<500>;\s*\}",
+        )
+        self.assertIn(
+            "active-layers = <0x00000180>; /* layer7 + layer8 */",
+            MONA2_R_OVERLAY.read_text(encoding="utf-8"),
+        )
+
     def test_actual_source_assignments_preserve_stock_and_sensor_variants(self):
         coropit_config = _source_assignments(_target("mona2_r-coropit"))
         stock_config = _source_assignments(_target("mona2_r-pmw3610"))
@@ -182,6 +248,37 @@ class CoropitConfigTest(unittest.TestCase):
             self.assertNotIn("CONFIG_PMW3610_SWAP_XY", assignments)
         self.assertNotIn("CONFIG_TRACKBALL_PAW3222", coropit_config)
         self.assertNotIn("CONFIG_TRACKBALL_PAW3222", stock_config)
+
+    def test_settings_selects_endpoint_output_and_default_layer(self):
+        source = KEYMAP.read_text(encoding="utf-8")
+        self.assertIn("#include <behaviors/default_layer.dtsi>", source)
+        self.assertIn("#include <dt-bindings/zmk_behavior_default_layer/default_layer.h>", source)
+        self.assertEqual(_config_values(MONA2_R_CONF)["CONFIG_ZMK_DEFAULT_LAYER_OS_DETECTION"], "n")
+        for profile in range(5):
+            self.assertRegex(
+                source,
+                re.compile(
+                    rf"BT{profile}: BT{profile}\s*\{{.*?"
+                    rf"bindings\s*=\s*<&bt BT_SEL {profile} &out OUT_BLE>;",
+                    re.DOTALL,
+                ),
+            )
+        for settings_layer in ("ble_win", "ble_mac"):
+            bindings = _layer_bindings(settings_layer)
+            self.assertEqual(bindings[5:10], ["&BT0", "&BT1", "&BT2", "&BT3", "&BT4"])
+            self.assertEqual(bindings[16:19], ["&df DF_SEL 0", "&df DF_SEL 1", "&out OUT_USB"])
+            self.assertEqual(bindings[26:28], ["&kp COLON", "&bootloader"])
+
+    def test_readme_documents_the_actual_initial_layers_and_controls(self):
+        readme = README.read_text(encoding="utf-8")
+        self.assertIn("| 0 | APPLE |", readme)
+        self.assertIn("| 1 | WIN |", readme)
+        self.assertIn("| 2 | AUTO_MOUSE |", readme)
+        self.assertIn("| 11 / 12 | SETTINGS_W / SETTINGS_A |", readme)
+        self.assertIn("| 0 | `&lt 2 ESC` | 38, 39 |", readme)
+        self.assertIn("入力がその端末へ届くのを確認してから `H` / `J`", readme)
+        self.assertIn("最後の通常キー入力から 100 ms 経過後の最初のボール移動", readme)
+        self.assertNotIn("`&lt 4 ESC` | 38, 39", readme)
 
     def test_invalid_selected_extra_conf_path_is_rejected(self):
         target = dict(_target("mona2_r-coropit"))

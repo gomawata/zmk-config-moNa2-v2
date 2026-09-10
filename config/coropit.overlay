@@ -1,3 +1,11 @@
 &trackball_central {
     cpi = <3200>;
 };
+
+/* COROPIT only: move the ball to reveal the low-priority auto-click layer. */
+&mouse_runtime_input_processor {
+    temp-layer-enabled;
+    temp-layer = <2>;
+    temp-layer-activation-delay-ms = <100>;
+    temp-layer-deactivation-delay-ms = <500>;
+};
