@@ -80,9 +80,9 @@ layers:
   - LEFT GUI
   - LEFT WIN
   - LEFT ALT
-  - {t: '`', h: NUM_M}
+  - {t: LANG2, h: NUM_M}
   - {t: SPACE, h: MOUSE_M}
-  - {t: '-', h: SCRL_M}
+  - {t: LANG1, h: SCRL_M}
   - ENTER
   - {t: BACKSPACE, type: held}
   - RIGHT SHIFT
