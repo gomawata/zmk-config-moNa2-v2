@@ -1,10 +1,16 @@
 # zmk-config-moNa2
 
-<img src="keymap-drawer/mona2_01.svg">
+<img src="docs/original-mac-layout.svg" alt="復元した旧moNa2 Mac配列">
+
+## 旧 Mac 配列を使う
+
+旧設定から復元した配列、右側のBackspace／Enter／マウスキー、COROPITトラックボールの扱いは
+[旧 Mac 配列の復元](docs/original-mac-layout.md) を参照してください。
 
 # COROPITを使用するへ
 
-COROPITを使用する方は以下のようにコードを編集してください。
+この復元ブランチではCOROPIT用の設定（`cpi = <600>`、X/Y反転）がすでに適用済みです。
+以下は設定内容の参照です。
 
 mona2_r.overlay
 
