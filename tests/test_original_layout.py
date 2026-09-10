@@ -12,6 +12,7 @@ LEFT_OVERLAY = ROOT / "boards" / "shields" / "mona2" / "mona2_l.overlay"
 DTSI = ROOT / "boards" / "shields" / "mona2" / "mona2.dtsi"
 BUILD = ROOT / "build.yaml"
 SOURCE_SHA256 = "adfcddcf616d63021b3a818f0aad10ebeb40b1a86a2926e1ad8f23588dd85348"
+PMW3610_MAX_CPI = 3200
 
 
 def layer_bindings(keymap: str, layer_name: str) -> list[str]:
@@ -65,7 +66,7 @@ class OriginalMacLayoutTests(unittest.TestCase):
         self.assertNotIn("zip_xy_to_scroll_mapper", overlay)
         self.assertNotIn("zip_temp_layer", dtsi_without_comments)
 
-    def test_v2_matrix_and_coropit_settings_remain(self) -> None:
+    def test_v2_matrix_and_coropit_settings_remain_at_maximum_cpi(self) -> None:
         overlay = RIGHT_OVERLAY.read_text()
         left_overlay = LEFT_OVERLAY.read_text()
         dtsi = DTSI.read_text()
@@ -77,7 +78,8 @@ class OriginalMacLayoutTests(unittest.TestCase):
         self.assertIn('compatible = "nordic,nrf-spim";', overlay)
         self.assertIn("cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;", overlay)
         self.assertIn("irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;", overlay)
-        self.assertIn("cpi = <600>;", overlay)
+        self.assertIn(f"cpi = <{PMW3610_MAX_CPI}>;", overlay)
+        self.assertNotIn("cpi = <600>;", overlay)
         self.assertIn("invert-x;", overlay)
         self.assertIn("invert-y;", overlay)
         self.assertIn("columns = <11>;", dtsi)
