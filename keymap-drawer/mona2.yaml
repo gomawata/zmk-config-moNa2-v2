@@ -1,6 +1,6 @@
 layout: {zmk_keyboard: mona2}
 layers:
-  WIN:
+  APPLE:
   - Q
   - W
   - E
@@ -16,34 +16,34 @@ layers:
   - D
   - F
   - G
-  - F13
+  - '-'
   - H
   - J
   - K
   - L
-  - ;
+  - {t: ;, h: MOUSE_M}
   - {t: Z, h: LEFT SHIFT}
   - X
   - C
   - V
   - B
-  - F14
-  - F15
+  - ':'
+  - ;
   - N
   - M
   - ','
   - .
-  - /
+  - {t: /, h: SETTINGS_A}
   - LCTRL
-  - LEFT WIN
-  - F16
-  - BACKSPACE
-  - {t: ENTER, h: NUM_W}
-  - {t: '&to_layer_0 LANG2', h: NUM_M}
-  - {t: '&to_layer_0 LANG1', h: NUM_M}
-  - {t: SPACE, h: MAC}
+  - LEFT GUI
   - LEFT ALT
-  MAC:
+  - {t: LANG2, h: NUM_M}
+  - {t: SPACE, h: MOUSE_M}
+  - {t: LANG1, h: SCRL_M}
+  - ENTER
+  - BACKSPACE
+  - RIGHT SHIFT
+  WIN:
   - Q
   - W
   - E
@@ -76,16 +76,59 @@ layers:
   - M
   - ','
   - .
-  - {t: /, h: BLE_M}
-  - LEFT GUI
+  - {t: /, h: SETTINGS_W}
+  - LCTRL
   - LEFT WIN
   - LEFT ALT
-  - {t: LANG2, h: NUM_M}
-  - {t: SPACE, h: MOUSE_M}
-  - {t: LANG1, h: SCRL_M}
+  - {t: LANG2, h: NUM_W}
+  - {t: SPACE, h: MOUSE_W}
+  - {t: LANG1, h: SCRL_W}
   - ENTER
-  - {t: BACKSPACE, type: held}
+  - BACKSPACE
   - RIGHT SHIFT
+  AUTO_MOUSE:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '&mkp MB1'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '&mkp MB3'
+  - '&mkp MB2'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: held}
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   NUM_W:
   - ESCAPE
   - '!'
@@ -113,7 +156,7 @@ layers:
   - )
   - '['
   - ']'
-  - {t: ▽, type: trans}
+  - ':'
   - +
   - .
   - '1'
@@ -123,8 +166,8 @@ layers:
   - LCTRL
   - LEFT GUI
   - LEFT ALT
-  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - ENTER
   - BACKSPACE
@@ -156,7 +199,7 @@ layers:
   - )
   - '['
   - ']'
-  - {t: ▽, type: trans}
+  - ':'
   - +
   - .
   - '1'
@@ -166,9 +209,9 @@ layers:
   - LEFT GUI
   - LEFT GUI
   - LEFT ALT
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - ENTER
   - BACKSPACE
   - RIGHT SHIFT
@@ -200,7 +243,7 @@ layers:
   - END
   - HOME
   - '='
-  - {t: ▽, type: trans}
+  - ;
   - '['
   - ']'
   - '{'
@@ -213,7 +256,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - ENTER
-  - {t: BACKSPACE, type: held}
+  - BACKSPACE
   - '|'
   MOUSE_M:
   - ESCAPE
@@ -236,14 +279,14 @@ layers:
   - '&mkp MB1'
   - SCRL_M
   - '&mkp MB2'
-  - Ctl+SPACE
+  - {t: Ctl+SPACE, type: held}
   - {t: KP 0, h: LEFT SHIFT}
   - Gui+Ctl+Z
   - DOWN ARROW
   - Gui+RIGHT
   - Gui+LEFT
   - '='
-  - {t: ▽, type: trans}
+  - ;
   - '['
   - ']'
   - '{'
@@ -253,10 +296,10 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - ENTER
-  - {t: BACKSPACE, type: held}
+  - BACKSPACE
   - '|'
   SCRL_W:
   - ESCAPE
@@ -277,16 +320,16 @@ layers:
   - OUT TOG
   - {t: ▽, type: trans}
   - '&mkp MB1'
-  - {type: held}
+  - {t: ▽, type: trans}
   - '&mkp MB2'
-  - {type: held}
+  - {t: ▽, type: trans}
   - LEFT SHIFT
   - Gui+Sft+LEFT ARROW
   - {t: ▽, type: trans}
   - Gui+Sft+RIGHT ARROW
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ':'
+  - ;
   - {t: ▽, type: trans}
   - '&mkp MB1'
   - {t: ▽, type: trans}
@@ -297,9 +340,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   SCRL_M:
   - ESCAPE
@@ -328,8 +371,8 @@ layers:
   - {t: ▽, type: trans}
   - Gui+Sft+RIGHT ARROW
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ':'
+  - ;
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -342,7 +385,7 @@ layers:
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
-  - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   FN_W:
   - {t: ▽, type: trans}
@@ -430,7 +473,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  BLE_W:
+  SETTINGS_W:
   - F1
   - F2
   - F3
@@ -438,18 +481,18 @@ layers:
   - F5
   - '&BT0'
   - '&BT1'
-  - {t: BT, h: '2'}
-  - {t: BT, h: '3'}
-  - {t: BT, h: '4'}
+  - '&BT2'
+  - '&BT3'
+  - '&BT4'
   - F6
   - F7
   - F8
   - F9
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - '-'
+  - '&df DF_SEL 0'
+  - '&df DF_SEL 1'
+  - OUT USB
   - {t: ▽, type: trans}
   - '&studio_unlock'
   - {t: ▽, type: trans}
@@ -457,50 +500,7 @@ layers:
   - '2'
   - '3'
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '&bootloader'
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - BT CLR
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '&bootloader'
-  - BT CLR ALL
-  BLE_M:
-  - F1
-  - F2
-  - F3
-  - F4
-  - F5
-  - '&BT0'
-  - '&BT1'
-  - {t: BT, h: '2'}
-  - {t: BT, h: '3'}
-  - {t: BT, h: '4'}
-  - F6
-  - F7
-  - F8
-  - F9
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '&studio_unlock'
-  - {t: ▽, type: trans}
-  - '1'
-  - '2'
-  - '3'
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ':'
   - '&bootloader'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -514,10 +514,53 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: '&bootloader', type: held}
+  - '&bootloader'
+  - BT CLR ALL
+  SETTINGS_A:
+  - F1
+  - F2
+  - F3
+  - F4
+  - F5
+  - '&BT0'
+  - '&BT1'
+  - '&BT2'
+  - '&BT3'
+  - '&BT4'
+  - F6
+  - F7
+  - F8
+  - F9
+  - {t: ▽, type: trans}
+  - '-'
+  - '&df DF_SEL 0'
+  - '&df DF_SEL 1'
+  - OUT USB
+  - {t: ▽, type: trans}
+  - '&studio_unlock'
+  - {t: ▽, type: trans}
+  - '1'
+  - '2'
+  - '3'
+  - {t: ▽, type: trans}
+  - ':'
+  - '&bootloader'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: BT CLR, type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '&bootloader'
   - BT CLR ALL
 combos:
 - p: [39, 38]
-  k: {t: ESC, h: MOUSE_W}
+  k: {t: ESC, h: AUTO_MOUSE}
 - p: [11, 12]
   k: TAB
