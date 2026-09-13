@@ -75,3 +75,21 @@ west build -s app -d build/settings_reset -p always -b xiao_ble/nrf52840/zmk -- 
 
 成功時のUF2、SHA-256、サイズ、メモリ使用量、生成元commitは最終ビルド時にこの文書へ
 追記する。実機への書込みはこの手順に含めない。
+
+## 最終ビルド結果
+
+生成元は `99b7222279c13c7d27b6c964a629c5d3a9456ebd`。3件とも
+`xiao_ble/nrf52840/zmk` で `-p always` を使って別ディレクトリへクリーンビルドした。
+全UF2は Nordic NRF52840 family ID `0xADA52840`、開始アドレス `0x27000`、payload 256 bytes
+である。
+
+| Target | UF2 relative to workspace `zmk/` | SHA-256 | Size | FLASH | RAM |
+| --- | --- | --- | ---: | ---: | ---: |
+| LEFT `mona2_l rgbled_adapter` | `build/final-99b722-mona2_l/zephyr/zmk.uf2` | `f20d798fc60255dd21ad1ce37745e09ec3f0a8677189d3d0289f636e7d2c1578` | 438272 B | 218980 / 788 KB (27.14%) | 65700 / 256 KB (25.06%) |
+| RIGHT COROPIT `mona2_r rgbled_adapter`, `studio-rpc-usb-uart`, `coropit.conf`, `coropit.overlay` | `build/final-99b722-mona2_r-coropit/zephyr/zmk.uf2` | `19168415231786809aa258c518810f35676df7b90b7a6e9a93c01e45dfd6dffb` | 784384 B | 392020 / 788 KB (48.58%) | 150840 / 256 KB (57.54%) |
+| `settings_reset` | `build/final-99b722-settings_reset/zephyr/zmk.uf2` | `5836a10e7337fb83f0df22c2ad19a675b9b8a5410224fee5813fb6dc7e6fefce` | 118272 B | 59012 / 788 KB (7.31%) | 17456 / 256 KB (6.66%) |
+
+RIGHTの生成済みKconfig/DTSで `CONFIG_PMW3610_INVERT_X=y`、
+`CONFIG_PMW3610_INVERT_Y=n`、`CONFIG_PMW3610_SWAP_XY=n`、および
+`cormoran,pmw3610` の `cpi = <3200>` を確認した。LEFT/RIGHTの生成keymapは
+`Maclayer`、`layer_1`、`layer_3`、`layer_4` の42 bindingずつ、計4レイヤーである。
