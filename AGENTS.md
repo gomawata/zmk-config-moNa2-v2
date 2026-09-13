@@ -1,10 +1,11 @@
-# Validation
+# 検証
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v tests/test_coropit_config.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 git diff --check
 ```
 
-These checks validate source configuration selection; they do not compile ZMK.
+原本fixtureは不変とし、`config/mona2.keymap` にはテストで明示した許容差分だけを適用する。
+このチェックはソース構成を検証するもので、ZMKをコンパイルしない。
 Use `.github/workflows/build.yml` on the target branch for firmware build verification.
 Hardware checks require the matching physical keyboard and sensor.

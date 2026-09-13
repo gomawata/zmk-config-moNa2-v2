@@ -94,9 +94,8 @@
     trackball_central_listener: trackball_central_listener {
         compatible = "zmk,input-listener";
         status = "disabled";
-        /* DYA Studio で動的に編集できるよう、入力プロセッサは
-           overlay 側で &mouse_runtime_input_processor /
-           &scroll_runtime_input_processor へ委譲する */
+        /* DYA Studioで動的に編集できるよう、入力プロセッサは
+           overlay側の &mouse_runtime_input_processor へ委譲する。 */
     };
 
     left_encoder: encoder_left {

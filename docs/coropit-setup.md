@@ -1,29 +1,11 @@
 # COROPIT セットアップ
 
-この専用ブランチのファームウェアはまだ生成・ビルド検証していない。GitHub Actionsでの検証はpush許可待ち。ローカルテストは設定選択とソース設定の読み合わせのみで、Kconfig評価・コンパイル・実機検証を代替しない。
+右側は`mona2_r-coropit`、左側は`mona2_l`のUF2を書き込む。通常は両側を更新するだけでよく、`settings_reset`は不要です。UF2更新では[ZMK Settings](https://zmk.dev/docs/config/settings)のpersistent settingsが残ります。
 
-## 書き込むファームウェア
+右側をUSB接続し、DYA StudioでCPIを3200、X反転を有効、Y反転とXY入替を無効にしていることを確認する。必要なら上書きして保存し、10秒以上電源を維持する。Studioに保存済みのキーマップがある場合は、右側で[Restore Stock Settings](https://zmk.dev/docs/features/studio)を実行して、コンパイル済みの4レイヤー配列を有効にする。この操作がPMW3610のカスタム設定まで消去するかは未確認です。
 
-- Actionsが成功したら、成果物 `firmware` のZIPを取得する。
-- 右側: ZIP内の `mona2_r-coropit*.uf2`。
-- 左側: 同じZIP内の `mona2_l*.uf2`（共通版）。
-- Central（中央／親機）は RIGHT。
+Runtime Input Processorの保存済みマウス設定は、キーマップを保存していない個体にも残ることがある。更新後、使い始める前にDYA Studioでmouseの一時レイヤーと`xy-to-scroll`が無効であることを確認し、必要なら無効にして保存する。レイヤー指定など、4レイヤー配列に干渉する設定も確認する。Restore Stock Settings後は設定変更イベントで実行中のRuntime Input Processor設定が再適用されないため、右側を再起動してから同じ項目を再確認する。
 
-USB接続中にリセットを2回押してブートローダーへ入り、左右それぞれに一致する UF2 をコピーする。Chrome / Edgeで [DYA Studio](https://studio.dya.cormoran.works/) を開き、右側のUSBから接続する。現在は `CONFIG_ZMK_STUDIO_LOCKING=n` なのでアンロック操作を必須としない。Custom Settings に保存済みの値がある場合は、`coropit.conf` の初期値より保存値が優先される。
+左右が接続できないなど必要な場合だけ、両側に`settings_reset`を書き込んでから、各側へ通常UF2を書き込む。その後、Macに残る旧Bluetooth登録を忘れて再ペアリングする。[接続トラブルシューティング](https://zmk.dev/docs/troubleshooting/connection-issues)も参照する。
 
-`settings_reset` は設定とボンドを消去するため、通常は使わない。意図的な復旧時だけ使う。書き込み後は、まず有線でポインターの X/Y、クリック、全キー、エンコーダーを確認し、BLE は最後に確認する。
-
-`coropit` はセンサー CPI を 600 から 3200 にし、同じ移動量で得られるセンサーカウントを約 5.33 倍にする（OS 全体のカーソル速度が正確に 5.33 倍になるという意味ではない）。DYA Studio に CPI の保存値がある場合はそちらが優先されるため、既に設定済みなら「トラックボールセンサー」でセンサー CPI を 3200 に設定する。
-
-## 向きの根拠
-
-この構成の明示値は X反転=`y`、Y反転=`n`、XY入替=`n`。README にある COROPIT の Y反転という説明は、現行ドライバーに対しては古く誤っている。旧ドライバーの `ORIENTATION_0` は `x=-raw_x, y=raw_y`。現行ドライバーで上記の値を指定すると、この軸変換に相当する。設定名自体を移植しない。実際の上下左右は到着後に確認する。
-
-- ベンダー: https://booth.pm/ja/items/6830658
-- 旧ドライバーの `ORIENTATION_0`: https://github.com/sayu-hub/zmk-pmw3610-driver/blob/main/src/pmw3610.c#L662-L682
-- ベンダーリンクの旧コミット: https://github.com/black-trooper/zmk-config-moNa2/commit/c1f7dcc5453e3a5b96738811c68e6c66e976c586
-- 現代の swap→invert: https://github.com/cormoran/zmk-driver-pmw3610-with-custom-studio-rpc/blob/5c34ea0eec246a1c986111417cd779b53144629a/src/pmw3610.c#L611-L625
-
-## ロールバック
-
-変更を保存してから、ローカルで元の `feature/dya-studio-support` に切り替える。元のファームウェアは、出所が確認できる既知のものがある場合だけ復元する。
+旧0.3系Custom Settingsの移行は保証しておらず、実機でも未検証です。
