@@ -93,3 +93,10 @@ RIGHTの生成済みKconfig/DTSで `CONFIG_PMW3610_INVERT_X=y`、
 `CONFIG_PMW3610_INVERT_Y=n`、`CONFIG_PMW3610_SWAP_XY=n`、および
 `cormoran,pmw3610` の `cpi = <3200>` を確認した。LEFT/RIGHTの生成keymapは
 `Maclayer`、`layer_1`、`layer_3`、`layer_4` の42 bindingずつ、計4レイヤーである。
+
+## CPI 1600への変更
+
+上記の`99b722`のCPI 3200ビルド結果は履歴として保持する。現在のCOROPIT初期値は
+`config/coropit.overlay`でCPI 1600へ変更した。X反転=`y`、Y反転=`n`、XY入替=`n`、
+4レイヤーMac keymap、固定manifestは変更しない。CPI 1600の右側COROPIT再現ビルド結果は
+build workspaceの専用レポートに記録する。

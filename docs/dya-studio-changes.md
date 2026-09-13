@@ -4,4 +4,4 @@
 
 Studioに保存されたキーマップはコンパイル済みのキーマップを上書きするため、配列を更新した後は右側USB接続で[Restore Stock Settings](https://zmk.dev/docs/features/studio)を実行してください。PMW3610設定への影響は未確認です。
 
-Runtime Input Processorのmouse設定はキーマップと別に保存されます。更新後、使い始める前にmouseの一時レイヤーと`xy-to-scroll`が無効であることを確認し、必要なら無効にして保存します。レイヤー指定も4レイヤー配列と矛盾しない値にします。Restore後は右側を再起動して確認してください。
+Runtime Input Processorのmouse設定はキーマップと別に保存されます。更新後、使い始める前にmouseの一時レイヤーと`xy-to-scroll`が無効であることを確認し、必要なら無効にして保存します。レイヤー指定も4レイヤー配列と矛盾しない値にします。COROPITの保存済みCPIも初期値より優先されるため、速度が変わらない場合はCPIを1600に保存し、10秒以上電源を維持して再起動します。Restore後は右側を再起動して確認してください。

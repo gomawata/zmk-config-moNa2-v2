@@ -34,7 +34,7 @@ moNa2 v2 をMac専用で使うためのZMK設定です。右側（Central）用�
 
 ## COROPITとDYA Studio
 
-COROPITはCPI 3200、X反転有効、Y反転無効、XY入替無効です。DYA Studioに保存済みの値があればそちらが優先されるため、右側をUSB接続して値を確認し、必要なら上書きしてください。設定を保存したら少なくとも10秒は電源を維持します。
+COROPITの初期CPIは1600、X反転有効、Y反転無効、XY入替無効です。DYA Studioに保存済みの値があればそちらが優先されるため、書き換え後も速度が変わらない場合は右側をUSB接続してCPIを1600に設定し、保存後は少なくとも10秒電源を維持して再起動してください。
 
 通常は左右それぞれに対応するUF2を書き込むだけで更新します。[ZMK Settings](https://zmk.dev/docs/config/settings)のとおり、UF2更新ではpersistent settingsは残ります。過去にStudioでキーマップを保存した場合は、右側をUSB接続して[ZMK StudioのRestore Stock Settings](https://zmk.dev/docs/features/studio)を実行し、コンパイル済み配列を有効にしてください。これでPMW3610のカスタム設定まで消えるかは未確認です。
 

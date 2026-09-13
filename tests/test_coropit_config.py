@@ -20,6 +20,10 @@ PAW3222_OVERLAY = ROOT / "config" / "paw3222.overlay"
 README = ROOT / "README.md"
 
 SOURCE_SHA256 = "adfcddcf616d63021b3a818f0aad10ebeb40b1a86a2926e1ad8f23588dd85348"
+SOURCE_KEYMAP_SHA256 = (
+    "b8db582ba23740735a1561105a0677cf"
+    "847a941d6d4c79ac6224d1ab6add4bb6"
+)
 LAYERS = ("Maclayer", "layer_1", "layer_3", "layer_4")
 ALLOWED_BINDING_DIFFS = {
     "Maclayer": {15: "&kp LC(LS(NUMBER_4))"},
@@ -155,6 +159,9 @@ class CoropitConfigTest(unittest.TestCase):
     def test_fixture_is_the_unchanged_old_mac_source(self) -> None:
         self.assertEqual(hashlib.sha256(FIXTURE.read_bytes()).hexdigest(), SOURCE_SHA256)
 
+    def test_current_keymap_matches_the_verified_four_layer_source(self) -> None:
+        self.assertEqual(hashlib.sha256(KEYMAP.read_bytes()).hexdigest(), SOURCE_KEYMAP_SHA256)
+
     def _assert_old_layout_contract(self, source: str) -> None:
         fixture = FIXTURE.read_text(encoding="utf-8")
         self.assertEqual(_keymap_layer_names(source), list(LAYERS))
@@ -248,7 +255,7 @@ class CoropitConfigTest(unittest.TestCase):
         self.assertEqual(coropit_config["CONFIG_PMW3610_INVERT_X"], "y")
         self.assertEqual(coropit_config["CONFIG_PMW3610_INVERT_Y"], "n")
         self.assertEqual(coropit_config["CONFIG_PMW3610_SWAP_XY"], "n")
-        self.assertRegex(COROPIT_OVERLAY.read_text(encoding="utf-8"), r"cpi\s*=\s*<3200>;")
+        self.assertRegex(COROPIT_OVERLAY.read_text(encoding="utf-8"), r"cpi\s*=\s*<1600>;")
 
     def test_other_right_sensor_targets_remain_separate(self) -> None:
         stock = _target("mona2_r-pmw3610")
