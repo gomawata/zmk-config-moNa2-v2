@@ -1,5 +1,16 @@
 # moNa2 v2 — Mac / COROPIT
 
+## このworktreeの位置づけ
+
+これは `feature/mac-voice-capture-latest` のMac/COROPIT候補です。1600 CPIとこの配列は、このworktreeと対応する配布物だけの記録であり、`main` や旧Mac復元版の標準指定ではありません。
+
+- [v2 main](../zmk-config-moNa2-v2/README.md): 基準となる別worktree
+- [旧Mac復元版](../zmk-config-moNa2-original-mac/README.md): 配列一致を優先する別variant
+- [1600 CPI配布物](../mona2-mac-firmware-delivery/2026-09-13-1600CPI/README.txt) と [2026-09-13の配布・build証跡](../mona2-mac-firmware-delivery/2026-09-13/README.md)
+- [キーマップ変更履歴サイト](../mona2-keymap-site/README.md): firmwareへ自動反映しない履歴ツール
+
+採用や書込みの前に、対象機器、source commit、依存lock、UF2 hash、実機確認の組を確定します。
+
 moNa2 v2 をMac専用で使うためのZMK設定です。右側（Central）用のCOROPIT成果物は`mona2_r-coropit`、左側（Peripheral）用は`mona2_l`です。どちらも`xiao_ble/nrf52840/zmk`を対象にし、右側には`studio-rpc-usb-uart`を含みます。
 
 ## 配列
