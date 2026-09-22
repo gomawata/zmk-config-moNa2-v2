@@ -2,6 +2,17 @@
 
 <img src="docs/original-mac-layout.svg" alt="復元した旧moNa2 Mac配列">
 
+## このworktreeの位置づけ
+
+これは `restore/original-mac` の復元variantです。旧Mac配列の一致契約を優先し、`main` やMac/COROPIT候補との自動マージ対象にはしません。
+
+- [v2 main](../zmk-config-moNa2-v2/README.md): 基準となる別worktree
+- [Mac/COROPIT 1600 CPI候補](../zmk-config-moNa2-mac-20260913/README.md): 用途とCPIが異なる別variant
+- [旧Mac配布物](../mona2-original-mac-delivery/README.md): source、UF2、hash、復旧手順を残す固定証跡
+- [キーマップ変更履歴サイト](../mona2-keymap-site/README.md): 履歴を管理するがfirmwareは更新しない
+
+配布物のsource commitは現在のHEADと一致しない場合があります。採用前に対象機器、配列、CPI、lock、UF2 hash、実機確認を組で照合します。
+
 ## 旧 Mac 配列を使う
 
 旧設定から復元した配列、右側のBackspace／Enter／マウスキー、COROPITトラックボールの扱いは
