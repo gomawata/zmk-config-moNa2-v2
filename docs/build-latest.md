@@ -100,3 +100,14 @@ RIGHTの生成済みKconfig/DTSで `CONFIG_PMW3610_INVERT_X=y`、
 `config/coropit.overlay`でCPI 1600へ変更した。X反転=`y`、Y反転=`n`、XY入替=`n`、
 4レイヤーMac keymap、固定manifestは変更しない。CPI 1600の右側COROPIT再現ビルド結果は
 build workspaceの専用レポートに記録する。
+
+## 現行選定版（1600 CPI）
+
+現行Mac系統として選定したソースは[README](../README.md)とcommit `e9f95de6a7f3abc570e6522bc5d667a631e1645c`です。上の`99b722`は3200 CPIの基準配布物として履歴保持し、現在の右側CPIは1600です。
+
+- 固定ビルドレポート: [build-report-cpi1600-e9f95de.json](../../mona2-mac-latest-build/build-report-cpi1600-e9f95de.json)
+- 右側1600 CPI配布と書き込み案内: [2026-09-13-1600CPI](../../mona2-mac-firmware-delivery/2026-09-13-1600CPI/README.txt)
+- 継続使用する左UF2を含む基準配布物: [2026-09-13](../../mona2-mac-firmware-delivery/2026-09-13/README.md)
+- レポート記録の右UF2 SHA-256: `052a350f9d8bde1f926f618ff35201b58657a9fde827bd25ab0dac2a9126f8cb`
+
+変更は右側の初期CPIを3200から1600へ変えたものです。書き込み後の実機動作・体感は未確認です。左側UF2は基準配布物のものを継続し、右側のみ1600 CPI配布物へ差し替えます。

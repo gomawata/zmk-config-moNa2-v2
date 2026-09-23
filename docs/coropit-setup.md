@@ -1,5 +1,7 @@
 # COROPIT セットアップ
 
+現行選定ソースは[README](../README.md)のcommit `e9f95de6a7f3abc570e6522bc5d667a631e1645c`です。右側1600 CPI版は[配布手順](../../mona2-mac-firmware-delivery/2026-09-13-1600CPI/README.txt)に従い、左側UF2は[2026-09-13基準配布物](../../mona2-mac-firmware-delivery/2026-09-13/README.md)のものを継続してください。下記の手順では現在選定されているCPI設定を示します。
+
 右側は`mona2_r-coropit`、左側は`mona2_l`のUF2を書き込む。通常は両側を更新するだけでよく、`settings_reset`は不要です。UF2更新では[ZMK Settings](https://zmk.dev/docs/config/settings)のpersistent settingsが残ります。
 
 右側をUSB接続し、DYA StudioでCPIを1600、X反転を有効、Y反転とXY入替を無効にしていることを確認する。保存済みのCPIが優先されるため、書き換え後も速度が変わらない場合はCPIを1600に設定して保存し、10秒以上電源を維持して再起動する。Studioに保存済みのキーマップがある場合は、右側で[Restore Stock Settings](https://zmk.dev/docs/features/studio)を実行して、コンパイル済みの4レイヤー配列を有効にする。この操作がPMW3610のカスタム設定まで消去するかは未確認です。

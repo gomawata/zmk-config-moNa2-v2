@@ -2,12 +2,12 @@
 
 ## このworktreeの位置づけ
 
-これは `feature/mac-voice-capture-latest` のMac/COROPIT候補です。1600 CPIとこの配列は、このworktreeと対応する配布物だけの記録であり、`main` や旧Mac復元版の標準指定ではありません。
+ユーザーが選定した現行firmware sourceです。Mac/COROPITのコード正本はfeature/mac-voice-capture-latestのe9f95de（1600 CPI）。この後のc604dc0はREADMEの参照整理だけで、firmware設定は変えていません。main基準variantと旧Mac復元variantは別に保持します。
 
-- [v2 main](../zmk-config-moNa2-v2/README.md): 基準となる別worktree
-- [旧Mac復元版](../zmk-config-moNa2-original-mac/README.md): 配列一致を優先する別variant
-- [1600 CPI配布物](../mona2-mac-firmware-delivery/2026-09-13-1600CPI/README.txt) と [2026-09-13の配布・build証跡](../mona2-mac-firmware-delivery/2026-09-13/README.md)
-- [キーマップ変更履歴サイト](../mona2-keymap-site/README.md): firmwareへ自動反映しない履歴ツール
+- [v2 main基準variant](../zmk-config-moNa2-v2/README.md): 共通Gitのmain worktree
+- [Archiveの旧Mac復元版](../Archive/zmk-config-moNa2-original-mac/README.md): 復元用の別variant
+- [選定された1600 CPI配布物](../mona2-mac-firmware-delivery/2026-09-13-1600CPI/README.txt)、[一致するbuild report](../mona2-mac-latest-build/build-report-cpi1600-e9f95de.json)、[3200 CPIの前版](../mona2-mac-firmware-delivery/2026-09-13/README.md)
+- [キーマップ変更履歴サイト](../mona2-keymap-site/README.md): 履歴を保存するWebツール。firmwareへ自動反映しない
 
 採用や書込みの前に、対象機器、source commit、依存lock、UF2 hash、実機確認の組を確定します。
 
