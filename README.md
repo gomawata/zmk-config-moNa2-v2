@@ -4,12 +4,12 @@
 
 ## このworktreeの位置づけ
 
-これは `restore/original-mac` の復元variantです。旧Mac配列の一致契約を優先し、`main` やMac/COROPIT候補との自動マージ対象にはしません。
+これはrestore/original-macの旧Mac復元variantを保管するArchiveです。現行の選定firmware sourceはProducts直下のMac/COROPIT 1600 CPI系統で、このworktreeとは自動マージしません。
 
-- [v2 main](../zmk-config-moNa2-v2/README.md): 基準となる別worktree
-- [Mac/COROPIT 1600 CPI候補](../zmk-config-moNa2-mac-20260913/README.md): 用途とCPIが異なる別variant
-- [旧Mac配布物](../mona2-original-mac-delivery/README.md): source、UF2、hash、復旧手順を残す固定証跡
-- [キーマップ変更履歴サイト](../mona2-keymap-site/README.md): 履歴を管理するがfirmwareは更新しない
+- [v2 main基準variant](../../zmk-config-moNa2-v2/README.md)
+- [選定されたMac/COROPIT 1600 CPI正本](../../zmk-config-moNa2-mac-20260913/README.md)
+- [旧Mac配布物](../mona2-original-mac-delivery/README.md)
+- [キーマップ変更履歴サイト](../../mona2-keymap-site/README.md)
 
 配布物のsource commitは現在のHEADと一致しない場合があります。採用前に対象機器、配列、CPI、lock、UF2 hash、実機確認を組で照合します。
 
